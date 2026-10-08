@@ -23,6 +23,7 @@ const Deals = lazy(() => import('@/pages/app/Deals'));
 const DealRoom = lazy(() => import('@/pages/app/DealRoom'));
 const Favorites = lazy(() => import('@/pages/app/Favorites'));
 const Profile = lazy(() => import('@/pages/app/Profile'));
+const Admin = lazy(() => import('@/pages/app/Admin'));
 const Support = lazy(() => import('@/pages/app/Support'));
 
 export default function App() {
@@ -56,6 +57,7 @@ export default function App() {
             <Route path="favorites" element={<Favorites />} />
             <Route path="profile" element={<Profile />} />
             <Route path="support" element={<Support />} />
+            <Route path="admin" element={<Admin />} />
           </Route>
 
           <Route path="*" element={<SiteLayout />}><Route path="*" element={<NotFound />} /></Route>

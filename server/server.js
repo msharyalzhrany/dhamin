@@ -23,6 +23,7 @@ import { conversationsRoutes } from './routes/conversations.js';
 import { dealsRoutes } from './routes/deals.js';
 import { dashboardRoutes } from './routes/dashboard.js';
 import { assistantRoutes } from './routes/assistant.js';
+import { adminRoutes } from './routes/admin.js';
 
 const app = new Hono();
 
@@ -88,6 +89,7 @@ app.route('/api/deals', dealsRoutes);
 app.route('/api/dashboard', dashboardRoutes);
 app.route('/api/tickets', ticketsRoutes);
 app.route('/api/assistant', assistantRoutes);
+app.route('/api/admin', adminRoutes);
 
 // ---- الصور المرفوعة (/uploads/<uuid>.<ext>) — أسماؤها uuid فلا تتغير، فنخزّنها في المتصفح سنة ----
 const MIME = { jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
