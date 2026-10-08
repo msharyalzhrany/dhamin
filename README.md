@@ -51,3 +51,4 @@ PROJECT 379/
 
 ## صور العروض (جدة)
 ضع صورك الحقيقية في `public/img/listings/<الحي أو نوع العقار>/` ثم `npm run db:seed -- --reset` (التفاصيل في `public/img/listings/README.md`).
+"# dhamin" 
