@@ -1,0 +1,120 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/readex-pro";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-600.css";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-700.css";
+
+/* الدارك مود: نضيف الكلاس dark على <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   ألوان الهوية — خمسة فقط (#39AB79 #041C16 #FFFFFF #F3F5F5 #000000)
+   كل الدرجات الأخرى تُشتق منها بـ color-mix. عدّل هنا لتغيّر الموقع كله.
+   ============================================================ */
+:root {
+  --deep: #041c16;
+  --brand: #39ab79;
+  --white: #ffffff;
+  --mist: #f3f5f5;
+  --black: #000000;
+
+  --bg: var(--mist);
+  --surface: var(--white);
+  --surface-2: color-mix(in srgb, var(--mist) 65%, var(--white));
+  --ink: var(--deep);
+  --muted: color-mix(in srgb, var(--deep) 62%, var(--mist));
+  --line: color-mix(in srgb, var(--deep) 12%, transparent);
+  --brand-text: color-mix(in srgb, var(--brand) 62%, var(--deep)); /* أخضر مقروء على الفاتح */
+  --brand-soft: color-mix(in srgb, var(--brand) 14%, var(--white));
+  --on-brand: var(--deep); /* لون الكتابة فوق الأخضر (تباين أفضل من الأبيض) */
+  --shadow: 0 1px 2px color-mix(in srgb, var(--deep) 8%, transparent), 0 12px 32px -12px color-mix(in srgb, var(--deep) 22%, transparent);
+}
+.dark {
+  --bg: var(--deep);
+  --surface: color-mix(in srgb, var(--deep) 90%, var(--white));
+  --surface-2: color-mix(in srgb, var(--deep) 82%, var(--white));
+  --ink: var(--mist);
+  --muted: color-mix(in srgb, var(--mist) 64%, var(--deep));
+  --line: color-mix(in srgb, var(--white) 14%, transparent);
+  --brand-text: var(--brand);
+  --brand-soft: color-mix(in srgb, var(--brand) 16%, var(--deep));
+  --shadow: 0 1px 2px color-mix(in srgb, var(--black) 40%, transparent), 0 16px 40px -16px color-mix(in srgb, var(--black) 70%, transparent);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-text: var(--brand-text);
+  --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
+  --color-deep: var(--deep);
+  --color-mist: var(--mist);
+  --font-sans: "Inter Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-brand: "Readex Pro Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Inter Variable", system-ui, sans-serif;
+  --shadow-card: var(--shadow);
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+}
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 55%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color .3s, color .3s;
+}
+/* في العربي نبدأ بخط IBM Plex العربي ليكون الرقم واللاتيني متناسقين */
+html[lang="ar"] body { font-family: var(--font-arabic); letter-spacing: 0; }
+html[lang="en"] body { letter-spacing: -0.005em; }
+::selection { background: color-mix(in srgb, var(--brand) 45%, transparent); }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+img { max-width: 100%; }
+button { cursor: pointer; font: inherit; }
+.num { font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+
+/* شريط التمرير */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent; }
+
+/* شبكة خفيفة للخلفيات (خطوط هندسية بدل الصور الخيالية) */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--white) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--white) 6%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+.hatch {
+  background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--deep) 22%, transparent) 0 2px, transparent 2px 7px);
+}
+.glass {
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid color-mix(in srgb, var(--white) 16%, transparent);
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, color-mix(in srgb, var(--surface-2) 70%, var(--ink) 8%) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

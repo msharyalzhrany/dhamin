@@ -1,0 +1,42 @@
+/* منزلقات السعر: حقلان range فوق بعض، الإبهام فقط يستقبل اللمس */
+.dh-range {
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.dh-range::-webkit-slider-runnable-track { background: transparent; height: 2.75rem; }
+.dh-range::-moz-range-track { background: transparent; height: 2.75rem; }
+.dh-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-top: 0.5rem;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 3px solid var(--brand);
+  box-shadow: var(--shadow);
+  cursor: grab;
+  transition: transform .15s;
+}
+.dh-range::-moz-range-thumb {
+  pointer-events: auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  box-sizing: border-box;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 3px solid var(--brand);
+  box-shadow: var(--shadow);
+  cursor: grab;
+}
+.dh-range:active::-webkit-slider-thumb { transform: scale(1.12); cursor: grabbing; }
+.dh-range:focus-visible { outline: none; }
+.dh-range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--brand); outline-offset: 3px; }
+.dh-range:focus-visible::-moz-range-thumb { outline: 2px solid var(--brand); outline-offset: 3px; }
