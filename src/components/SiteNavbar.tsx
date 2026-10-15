@@ -106,7 +106,6 @@ export function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const show = (a?: Auth) => !a || (a === 'user') === !!user;
   const megaFor = (m: Mega): Mega => ({ ...m, cols: m.cols.filter((c) => show(c.auth)).map((c) => ({ ...c, links: c.links.filter((l) => show(l.auth)) })).filter((c) => c.links.length) });
-  const active = MEGA.find((m) => m.id === open) ? megaFor(MEGA.find((m) => m.id === open)!) : null;
 
   useEffect(() => { setOpen(null); setMobile(false); setUserMenu(false); }, [loc.pathname, loc.search, loc.hash]);
   useEffect(() => {
@@ -116,8 +115,7 @@ export function SiteNavbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const linkCls = 'group flex items-center gap-2 text-lg font-semibold hover:text-brand-text';
-  const rowBtn = 'flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors';
+    const rowBtn = 'flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors';
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4">
@@ -128,13 +126,45 @@ export function SiteNavbar() {
             <Link to="/" className="shrink-0" aria-label={t('ضامن — الرئيسية', 'Dhamin — Home')}><Logo markClass="size-9" /></Link>
 
             <nav className="hidden items-center gap-1 lg:flex" aria-label="main">
-              {MEGA.map((m) => (
-                <button key={m.id} onClick={() => setOpen((c) => (c === m.id ? null : m.id))} aria-expanded={open === m.id}
-                  className={cn(rowBtn, open === m.id ? 'bg-surface-2' : 'text-muted hover:bg-surface-2 hover:text-ink')}>
-                  {lang === 'ar' ? m.ar : m.en}
-                  <ChevronDown className={cn('size-4 transition-transform duration-300', open === m.id && 'rotate-180')} />
-                </button>
-              ))}
+              {MEGA.map((m) => {
+                const mm = megaFor(m);
+                const isOpen = open === m.id;
+                return (
+                  <div key={m.id} className="relative" onMouseEnter={() => setOpen(m.id)} onMouseLeave={() => setOpen(null)}>
+                    <button onClick={() => setOpen((c) => (c === m.id ? null : m.id))} aria-expanded={isOpen}
+                      className={cn(rowBtn, isOpen ? 'bg-surface-2' : 'text-muted hover:bg-surface-2 hover:text-ink')}>
+                      {lang === 'ar' ? m.ar : m.en}
+                      <ChevronDown className={cn('size-4 transition-transform duration-300', isOpen && 'rotate-180')} />
+                    </button>
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div initial={{ opacity: 0, y: -6, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -6, scale: 0.97 }} transition={{ duration: 0.15 }}
+                          className="absolute start-1/2 top-full z-30 mt-2 max-h-[75vh] w-60 -translate-x-1/2 overflow-y-auto rounded-2xl border border-line bg-surface p-1.5 text-ink shadow-card before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-[''] rtl:translate-x-1/2">
+                          {mm.cols.map((col, ci) => (
+                            <div key={col.en + ci} className={cn(ci > 0 && 'mt-1 border-t border-line pt-1')}>
+                              <p className="px-3 pb-1 pt-2 text-xs font-semibold text-muted">{lang === 'ar' ? col.ar : col.en}</p>
+                              {col.links.map((l) => (
+                                <Link key={l.to + l.en} to={l.to} className="flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium hover:bg-surface-2">
+                                  {lang === 'ar' ? l.ar : l.en}
+                                  {l.badge && <Badge tone="dark">{lang === 'ar' ? l.badge.ar : l.badge.en}</Badge>}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                          {mm.footer?.map((f) => (
+                            <Link key={f.to} to={f.to} className={buttonStyles('primary', 'sm', 'mt-2 w-full gap-2')}><Plus className="size-4" />{lang === 'ar' ? f.ar : f.en}</Link>
+                          ))}
+                          {mm.socials && (
+                            <div className="mt-1 flex items-center justify-center gap-4 border-t border-line px-3 pb-2 pt-3">
+                              {SOCIALS.map(({ label, icon: I }) => <a key={label} href="#" aria-label={label} className="text-muted hover:text-ink"><I className="size-[1.1rem]" /></a>)}
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
               <NavLink to="/auctions" className={({ isActive }) => cn(rowBtn, isActive ? 'bg-surface-2' : 'text-muted hover:bg-surface-2 hover:text-ink')}>
                 {t('المزادات', 'Auctions')}
               </NavLink>
@@ -174,44 +204,6 @@ export function SiteNavbar() {
               </button>
             </div>
           </div>
-
-          {/* القائمة الكبيرة (سطح المكتب) */}
-          <AnimatePresence initial={false}>
-            {active && (
-              <motion.div key={active.id} initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className="hidden overflow-hidden lg:block">
-                <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-20 gap-y-8 px-8 pb-6 pt-2 text-center">
-                  {active.cols.map((col, i) => (
-                    <div key={col.en} className="flex min-w-[10rem] flex-col items-center gap-6">
-                      <span className="w-fit rounded-full border border-line px-4 py-1.5 text-xs font-medium text-muted">{lang === 'ar' ? col.ar : col.en}</span>
-                      <ul className="flex flex-col items-center gap-4">
-                        {col.links.map((l) => (
-                          <li key={l.to}>
-                            <Link to={l.to} className={linkCls}>
-                              {lang === 'ar' ? l.ar : l.en}
-                              {l.badge && <Badge tone="dark">{lang === 'ar' ? l.badge.ar : l.badge.en}</Badge>}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-                {active.footer && (
-                  <div className="flex justify-center px-8 pb-8">
-                    {active.footer.map((f) => (
-                      <Link key={f.to} to={f.to} className={buttonStyles('primary', 'md', 'gap-2')}><Plus className="size-4" />{lang === 'ar' ? f.ar : f.en}</Link>
-                    ))}
-                  </div>
-                )}
-                {active.socials && (
-                  <div className="flex items-center justify-center gap-5 px-8 pb-8">
-                    {SOCIALS.map(({ label, icon: I }) => <a key={label} href="#" aria-label={label} className="text-muted hover:text-ink"><I className="size-5" /></a>)}
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* قائمة الجوال */}
           <AnimatePresence initial={false}>
