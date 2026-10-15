@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 import { FaInstagram, FaLinkedin, FaWhatsapp, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { Logo } from '@/components/Logo';
 import { usePrefs } from '@/providers/prefs';
+import { useAuth } from '@/providers/auth';
 
 export function SiteFooter() {
   const { t } = usePrefs();
+  const { user } = useAuth();
   const cols = [
     { h: t('العقارات', 'Properties'), l: [[t('للبيع', 'For sale'), '/properties?listingType=sale'], [t('للإيجار', 'For rent'), '/properties?listingType=rent'], [t('الاستثمار', 'Investing'), '/invest'], [t('المزادات', 'Auctions'), '/auctions']] },
     { h: t('ضامن', 'Dhamin'), l: [[t('كيف تعمل', 'How it works'), '/#how'], [t('الأسئلة الشائعة', 'FAQ'), '/#faq']] },
-    { h: t('حسابك', 'Account'), l: [[t('دخول', 'Sign in'), '/login'], [t('إنشاء حساب', 'Sign up'), '/signup'], [t('لوحتي', 'Dashboard'), '/app']] },
+    { h: t('حسابك', 'Account'), l: user ? [[t('لوحتي', 'Dashboard'), '/app'], [t('عقاراتي', 'My properties'), '/app/properties'], [t('الرسائل', 'Messages'), '/app/messages'], [t('الدعم', 'Support'), '/app/support']] : [[t('دخول', 'Sign in'), '/login'], [t('إنشاء حساب', 'Sign up'), '/signup']] },
   ];
   return (
     <footer className="relative overflow-hidden bg-hero text-white">

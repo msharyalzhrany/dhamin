@@ -14,8 +14,9 @@ import { usePrefs } from '@/providers/prefs';
 import { useAuth } from '@/providers/auth';
 import { cn } from '@/lib/utils';
 
-type MenuLink = { ar: string; en: string; to: string; badge?: { ar: string; en: string } };
-type Mega = { id: string; ar: string; en: string; cols: { ar: string; en: string; links: MenuLink[] }[]; footer?: MenuLink[]; socials?: boolean };
+type Auth = 'guest' | 'user'; // guest = يظهر لغير المسجّل فقط، user = للمسجّل فقط
+type MenuLink = { ar: string; en: string; to: string; badge?: { ar: string; en: string }; auth?: Auth };
+type Mega = { id: string; ar: string; en: string; cols: { ar: string; en: string; links: MenuLink[]; auth?: Auth }[]; footer?: MenuLink[]; socials?: boolean };
 
 const MEGA: Mega[] = [
   {
@@ -56,7 +57,8 @@ const MEGA: Mega[] = [
       ] },
       { ar: 'ابدأ', en: 'Get started', links: [
         { ar: 'أضف فرصة استثمارية', en: 'List an opportunity', to: '/app/properties/new' },
-        { ar: 'إنشاء حساب', en: 'Create account', to: '/signup' },
+        { ar: 'إنشاء حساب', en: 'Create account', to: '/signup', auth: 'guest' },
+        { ar: 'لوحتي', en: 'My dashboard', to: '/app', auth: 'user' },
       ] },
     ],
   },
@@ -72,10 +74,16 @@ const MEGA: Mega[] = [
         { ar: 'تواصل مع الدعم', en: 'Contact support', to: '/app/support' },
         { ar: 'المساعد الذكي', en: 'AI assistant', to: '/#faq' },
       ] },
-      { ar: 'حسابك', en: 'Your account', links: [
+      { ar: 'حسابك', en: 'Your account', auth: 'guest', links: [
         { ar: 'تسجيل الدخول', en: 'Sign in', to: '/login' },
         { ar: 'إنشاء حساب', en: 'Sign up', to: '/signup' },
+      ] },
+      { ar: 'حسابك', en: 'Your account', auth: 'user', links: [
         { ar: 'لوحتي', en: 'My dashboard', to: '/app' },
+        { ar: 'عقاراتي', en: 'My properties', to: '/app/properties' },
+        { ar: 'الرسائل', en: 'Messages', to: '/app/messages' },
+        { ar: 'صفقاتي', en: 'My deals', to: '/app/deals' },
+        { ar: 'المفضلة', en: 'Favorites', to: '/app/favorites' },
       ] },
     ],
     socials: true,
@@ -96,7 +104,9 @@ export function SiteNavbar() {
   const [mobile, setMobile] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const active = MEGA.find((m) => m.id === open) ?? null;
+  const show = (a?: Auth) => !a || (a === 'user') === !!user;
+  const megaFor = (m: Mega): Mega => ({ ...m, cols: m.cols.filter((c) => show(c.auth)).map((c) => ({ ...c, links: c.links.filter((l) => show(l.auth)) })).filter((c) => c.links.length) });
+  const active = MEGA.find((m) => m.id === open) ? megaFor(MEGA.find((m) => m.id === open)!) : null;
 
   useEffect(() => { setOpen(null); setMobile(false); setUserMenu(false); }, [loc.pathname, loc.search, loc.hash]);
   useEffect(() => {
@@ -216,7 +226,7 @@ export function SiteNavbar() {
                       </button>
                       {open === m.id && (
                         <div className="ms-3 flex flex-col gap-3 border-s border-line ps-4 py-2">
-                          {m.cols.flatMap((c) => c.links).map((l) => (
+                          {megaFor(m).cols.flatMap((c) => c.links).map((l) => (
                             <Link key={l.to} to={l.to} className="flex items-center gap-2 text-sm text-muted hover:text-ink">{lang === 'ar' ? l.ar : l.en}{l.badge && <Badge tone="dark">{lang === 'ar' ? l.badge.ar : l.badge.en}</Badge>}</Link>
                           ))}
                         </div>

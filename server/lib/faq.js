@@ -49,6 +49,9 @@ export const FAQ = [
   E('search', ['بحث', 'ابحث', 'فلتر', 'حي', 'احياء', 'search', 'filter', 'district', 'find'],
     'في صفحة العقارات استخدم الفلاتر: نوع العملية، نوع العقار، الحي، السعر، المساحة، غرف النوم والمرافق، مع ترتيب حسب الأحدث أو السعر. التغطية حالياً مدينة جدة فقط.',
     'On the listings page use filters: operation, property type, district, price, area, bedrooms and amenities, sorted by newest or price. Coverage is currently Jeddah only.'),
+  E('about', ['مهامك', 'مهام', 'من انت', 'مين انت', 'وش انت', 'ايش انت', 'وش تسوي', 'ايش تسوي', 'وش تقدر', 'ايش تقدر', 'وش تعرف', 'تقدر تساعد', 'ساعدني', 'وش ضامن', 'ايش ضامن', 'ما هو ضامن', 'عن ضامن', 'who are you', 'what can you do', 'what do you do', 'what is dhamin', 'about dhamin'],
+    'أنا مساعد ضامن 👋 أجاوب عن المنصة: كيف تتم الصفقة وخطواتها، العقد والتوقيع الإلكتروني، الحدود، إضافة عقار، الاستثمار، الإلغاء وتذاكر الدعم، والأمان. وضامن منصة وساطة عقارية للأفراد في جدة تحمي الصفقة بعقد موثّق وتأكيد التحويل والاستلام من الطرفين. اسألني عن أي نقطة!',
+    'I am the Dhamin assistant 👋 I answer questions about the platform: deal steps, the contract and e-signature, limits, adding a listing, investment, cancelling and support tickets, and safety. Dhamin is a real-estate brokerage for individuals in Jeddah that protects each deal with a sealed contract and confirmed transfer and receipt from both sides. Ask me anything!'),
   E('greeting', ['مرحبا', 'السلام', 'اهلا', 'هلا', 'hello', 'hi', 'hey', 'salam'],
     'أهلاً بك في ضامن! أنا هنا لأجيبك عن الصفقات والعقود والحدود والاستثمار والدعم. ماذا تود أن تعرف؟',
     'Welcome to Dhamin! I can answer questions about deals, contracts, limits, investment and support. What would you like to know?'),
@@ -68,7 +71,7 @@ export function normalize(s) {
 }
 
 const DEFAULT_REPLY = {
-  ar: 'ما فهمت سؤالك تماماً، ممكن تعيد صياغته؟ أقدر أساعدك في: تسجيل الدخول، الحدود، إضافة عقار، خطوات الصفقة، العقد والتوقيع، الإلغاء، تذاكر الدعم، الاستثمار، المزادات، الملف الشخصي، اللغة والوضع الداكن، والأمان.',
+  ar: 'ما فهمت سؤالك تماماً، ممكن تعيد صياغته بكلمات ثانية؟ أقدر أساعدك في: تسجيل الدخول، الحدود، إضافة عقار، خطوات الصفقة، العقد والتوقيع، الإلغاء، تذاكر الدعم، الاستثمار، المزادات، الملف الشخصي، اللغة والوضع الداكن، والأمان.',
   en: "I didn't quite get that, could you rephrase? I can help with: login, limits, adding a property, deal steps, contract and signing, cancelling, support tickets, investment, auctions, your profile, language and dark mode, and safety.",
 };
 

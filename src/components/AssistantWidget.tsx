@@ -11,6 +11,12 @@ import { cn } from '@/lib/utils';
 
 type Msg = { role: 'user' | 'assistant'; text: string };
 
+// يحوّل أي رابط داخلي مثل /properties/xxxx في رد المساعد إلى رابط قابل للضغط
+function linkify(text: string) {
+  return text.split(/(\/(?:properties|invest|auctions|app)(?:\/[\w-]+)*)/g).map((part, i) =>
+    i % 2 ? <a key={i} href={part} className="font-semibold text-brand-text underline underline-offset-2">{part.startsWith('/properties/') && part.length > 14 ? 'فتح العقار' : part}</a> : part);
+}
+
 export function AssistantWidget() {
   const { t, lang } = usePrefs();
   const loc = useLocation();
@@ -60,7 +66,7 @@ export function AssistantWidget() {
             <div className="flex-1 space-y-3 overflow-y-auto p-4">
               <div className="rounded-2xl rounded-ss-sm bg-surface-2 p-3 text-sm leading-relaxed">{t('أهلاً! أنا مساعد ضامن. اسألني عن التسجيل، إضافة العقار، خطوات الصفقة أو العقد.', "Hi! I'm Dhamin's assistant. Ask me about signing up, listing a property, deal steps or contracts.")}</div>
               {msgs.map((m, i) => (
-                <div key={i} className={cn('max-w-[88%] whitespace-pre-wrap rounded-2xl p-3 text-sm leading-relaxed', m.role === 'user' ? 'ms-auto rounded-ee-sm bg-brand text-on-brand' : 'rounded-ss-sm bg-surface-2')}>{m.text}</div>
+                <div key={i} className={cn('max-w-[88%] whitespace-pre-wrap rounded-2xl p-3 text-sm leading-relaxed', m.role === 'user' ? 'ms-auto rounded-ee-sm bg-brand text-on-brand' : 'rounded-ss-sm bg-surface-2')}>{m.role === 'user' ? m.text : linkify(m.text)}</div>
               ))}
               {busy && <div className="flex w-16 gap-1 rounded-2xl rounded-ss-sm bg-surface-2 p-3.5">{[0, 1, 2].map((i) => <motion.span key={i} className="size-2 rounded-full bg-muted" animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 0.8, delay: i * 0.12 }} />)}</div>}
               {msgs.length === 0 && (

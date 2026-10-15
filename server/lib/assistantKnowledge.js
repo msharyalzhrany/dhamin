@@ -28,10 +28,16 @@ export function systemPrompt(lang, ctx) {
   const l = lang === 'en' ? 'en' : 'ar';
   const intro =
     l === 'ar'
-      ? 'أنت مساعد منصة ضامن. أجب بالعربية بإيجاز (120 كلمة كحد أقصى) وبأسلوب ودّي، اعتماداً على المعلومات التالية فقط. إن لم تعرف الجواب قل ذلك بصراحة ولا تخترع معلومات. لا تقدّم نصائح قانونية أو مالية.'
-      : 'You are the Dhamin platform assistant. Answer in English, briefly (max 120 words), friendly, using only the facts below. If you do not know, say so honestly and never invent facts. Give no legal or financial advice.';
+      ? 'أنت "مساعد ضامن" الذكي: خبير عقاري ودود وذكي وسريع الفهم. افهم قصد المستخدم حتى لو كتب بلهجة سعودية أو بأخطاء إملائية أو كان سؤاله ناقصاً. أجب بالعربية بوضوح وإيجاز (حتى 150 كلمة) وابدأ بالجواب مباشرة. إذا طلب المستخدم عقارات فاعرض له من قائمة "العقارات المتاحة" أدناه فقط مع السعر والحي والرابط، ولا تخترع عقارات أو أسعاراً. اعتمد على معلومات المنصة التالية، وإن لم تعرف الجواب قل ذلك بصراحة. يمكنك تقديم نصيحة عامة مفيدة في الشراء والإيجار (ماذا تراجع قبل التحويل، كيف تقارن الأسعار) لكن دون نصيحة قانونية أو مالية ملزمة. اقترح الخطوة التالية في نهاية الجواب عند الحاجة.'
+      : 'You are "Dhamin Assistant": a smart, friendly real-estate expert who understands intent even with typos, slang or incomplete questions. Answer in English, clearly and briefly (up to 150 words), starting with the answer. When the user asks for properties, show only items from the "Available listings" list below with price, district and link; never invent listings or prices. Rely on the platform facts below; if you do not know, say so. You may give general helpful buying/renting tips but no binding legal or financial advice. Suggest the next step when useful.';
   let out = `${intro}\n\n${KNOWLEDGE[l]}`;
   if (ctx?.page) out += `\n\n${l === 'ar' ? 'الصفحة الحالية للمستخدم' : 'User is currently on page'}: ${ctx.page}`;
+  if (ctx?.listings) {
+    const L = ctx.listings;
+    out += l === 'ar' ? `\n\nالعقارات المتاحة الآن (إجمالي المطابق: ${L.total}، هذه أحدث ${L.items.length}) — الرابط نسبي على موقع ضامن:` : `\n\nAvailable listings (total matching: ${L.total}, newest ${L.items.length} shown) — links are relative to the Dhamin site:`;
+    for (const x of L.items) out += `\n- ${x.title} | ${x.type} ${x.op} | ${x.district} | ${x.price} SAR${x.area ? ` | ${x.area} m2` : ''} | ${x.link}`;
+    if (!L.items.length) out += l === 'ar' ? '\n(لا توجد نتائج مطابقة حالياً؛ اقترح تغيير الحي أو النوع.)' : '\n(No matches right now; suggest changing district or type.)';
+  }
   if (ctx?.user) {
     const u = ctx.user;
     out +=
