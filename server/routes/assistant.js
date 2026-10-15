@@ -75,7 +75,12 @@ async function askGemini({ message, lang, page, history, ctx, listings }) {
     }),
     signal: AbortSignal.timeout(12_000),
   });
-  if (!res.ok) throw new Error(`gemini status ${res.status}`);
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    let msg = body.slice(0, 200);
+    try { msg = JSON.parse(body)?.error?.message ?? msg; } catch {}
+    throw new Error(`gemini status ${res.status}: ${msg}`);
+  }
   const data = await res.json();
   const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim();
   if (!text) throw new Error('gemini empty reply');
@@ -94,6 +99,14 @@ assistantRoutes.post('/', async (c) => {
       // لا نطبع المفتاح أبداً؛ نكتفي بنوع الخطأ
       console.warn('المساعد: تعذّر Gemini، نستخدم الإجابات الجاهزة —', e?.name === 'TimeoutError' ? 'timeout' : e?.message);
     }
+  }
+  // بدون Gemini: إذا كان السؤال عن عقارات نعرض نتائج حقيقية من قاعدة البيانات
+  const found = await listingsContext(body.message, body.history).catch(() => null);
+  if (found?.items.length) {
+    const ar = body.lang !== 'en';
+    const lines = found.items.map((x) => `• ${x.title} — ${x.district} — ${x.price.toLocaleString('en-US')} ${ar ? 'ريال' : 'SAR'}\n  ${x.link}`);
+    const head = ar ? `لقيت لك ${found.total} عقار مطابق، هذي أحدث ${found.items.length}:` : `Found ${found.total} matching properties, newest ${found.items.length}:`;
+    return c.json({ reply: `${head}\n${lines.join('\n')}`, source: 'search' });
   }
   return c.json({ reply: faqAnswer(body.message, body.lang), source: 'faq' });
 });
