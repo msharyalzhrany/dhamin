@@ -10,6 +10,7 @@ import { Select } from '@/components/ui/field';
 import { Counter, Reveal } from '@/components/Reveal';
 import { PropertyFlipCard } from '@/components/PropertyCard';
 import { LogoMark } from '@/components/Logo';
+import { HeroFeatured, HeroTools } from '@/components/HeroSide';
 import { usePrefs } from '@/providers/prefs';
 import { useMeta } from '@/providers/meta';
 import { useApi } from '@/lib/useApi';
@@ -90,13 +91,16 @@ function Hero() {
       <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-70" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-hero/35 via-hero/35 to-hero/90" />
       <div className="bg-grid absolute inset-0 -z-10" />
+      {/* بطاقات جانبية — للشاشات الكبيرة فقط */}
+      <div className="absolute start-6 top-40 hidden min-[1500px]:block"><HeroFeatured /></div>
+      <div className="absolute end-6 top-40 hidden min-[1500px]:block"><HeroTools /></div>
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <motion.aside initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs backdrop-blur">
           <Gavel className="size-3.5 text-brand" /><span className="text-white/75">{t('جديد: المزادات العقارية قريباً', 'New: real-estate auctions are coming soon')}</span>
           <Link to="/auctions" className="flex items-center gap-1 font-semibold text-brand">{t('اعرف أكثر', 'Learn more')}<ArrowRight className="size-3 rtl:rotate-180" /></Link>
         </motion.aside>
         <TextEffect key={lang} as="h1" per="word" preset={lang === 'ar' ? 'blur' : 'slide'} delay={0.15}
-          className="max-w-4xl text-5xl font-bold leading-[1.2] tracking-tight text-white md:text-7xl rtl:tracking-normal">
+          className="max-w-3xl text-4xl font-bold leading-[1.25] tracking-tight text-white md:text-5xl lg:text-6xl rtl:tracking-normal">
           {t('صفقتك العقارية، بضمان من أول رسالة حتى المفتاح.', 'Your property deal, protected from first message to the key.')}
         </TextEffect>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="mt-6 max-w-2xl text-base text-white/70 md:text-lg">
