@@ -8,7 +8,8 @@ import * as schema from './schema.js';
 const url = process.env.DATABASE_URL ?? 'file:./data/dhamin.db';
 if (url.startsWith('file:')) mkdirSync(dirname(url.slice(5)), { recursive: true });
 
-const client = createClient({ url });
+// DATABASE_AUTH_TOKEN مطلوب فقط مع قاعدة خارجية (Turso: libsql://...)
+const client = createClient({ url, authToken: process.env.DATABASE_AUTH_TOKEN || undefined });
 // نفعّل المفاتيح الأجنبية (علاقات الجداول) في SQLite
 await client.execute('PRAGMA foreign_keys = ON');
 

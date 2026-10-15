@@ -11,6 +11,7 @@ import { Counter, Reveal } from '@/components/Reveal';
 import { PropertyFlipCard } from '@/components/PropertyCard';
 import { LogoMark } from '@/components/Logo';
 import { HeroFeatured, HeroTools } from '@/components/HeroSide';
+import { PROMOS } from '@/lib/promos';
 import { usePrefs } from '@/providers/prefs';
 import { useMeta } from '@/providers/meta';
 import { useApi } from '@/lib/useApi';
@@ -338,6 +339,28 @@ function Cta() {
   );
 }
 
+/* ---------- شريط إعلاني متحرك (مثل شريط الأخبار) ---------- */
+function PromoTicker() {
+  const { lang, t } = usePrefs();
+  const items = [...PROMOS, ...PROMOS]; // مكرّر مرتين للحركة المتصلة
+  return (
+    <div className="ticker relative overflow-hidden border-y border-white/10 bg-deep text-white" dir="ltr" role="region" aria-label={t('عروض ضامن', 'Dhamin offers')}>
+      <div className="pointer-events-none absolute inset-y-0 start-0 z-10 w-16 bg-gradient-to-r from-deep to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 end-0 z-10 w-16 bg-gradient-to-l from-deep to-transparent" />
+      <div className="ticker-track flex w-max items-center" data-dir={lang === 'ar' ? 'right' : 'left'}>
+        {items.map((p, i) => (
+          <Link key={i} to={p.to} dir={lang === 'ar' ? 'rtl' : 'ltr'} className="flex shrink-0 items-center gap-2.5 px-6 py-2 text-[13px] transition-colors hover:text-brand">
+            <span className="rounded bg-brand px-2 py-0.5 text-[11px] font-bold text-deep">{lang === 'ar' ? p.tag.ar : p.tag.en}</span>
+            <b className="font-semibold">{lang === 'ar' ? p.kind.ar : p.kind.en}</b>
+            <span className="text-white/70">{lang === 'ar' ? p.offer.ar : p.offer.en}</span>
+            <span className="ms-4 text-white/25" aria-hidden>◆</span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
-  return (<><Hero /><Services /><Featured /><Scenes /><How /><Stats /><Trust /><InvestTeaser /><Faq /><Cta /></>);
+  return (<><Hero /><PromoTicker /><Services /><Featured /><Scenes /><How /><Stats /><Trust /><InvestTeaser /><Faq /><Cta /></>);
 }

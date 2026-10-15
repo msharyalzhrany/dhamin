@@ -120,3 +120,11 @@ button { cursor: pointer; font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* الشريط الإعلاني المتحرك (Ticker): المسار مكرّر مرتين فيتحرك نصفه ثم يعود بلا قفزة */
+@keyframes ticker-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes ticker-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.ticker-track { animation: ticker-left 55s linear infinite; }
+.ticker-track[data-dir='right'] { animation-name: ticker-right; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
