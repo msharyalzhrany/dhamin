@@ -7,18 +7,18 @@ export type Theme = 'light' | 'dark' | 'system';
 export const FONT_STEPS = [0.875, 1, 1.125, 1.25, 1.4] as const;
 
 type Prefs = { lang: Lang; theme: Theme; font: number };
-const KEY = 'dhamin-prefs';
+const KEY = 'dhamin-prefs-v2';
 
 function load(): Prefs {
   try {
     const p = JSON.parse(localStorage.getItem(KEY) || '{}');
     return {
       lang: p.lang === 'en' ? 'en' : 'ar',
-      theme: ['light', 'dark', 'system'].includes(p.theme) ? p.theme : 'system',
+      theme: ['light', 'dark', 'system'].includes(p.theme) ? p.theme : 'light',
       font: typeof p.font === 'number' && p.font >= 0 && p.font < FONT_STEPS.length ? p.font : 1,
     };
   } catch {
-    return { lang: 'ar', theme: 'system', font: 1 };
+    return { lang: 'ar', theme: 'light', font: 1 };
   }
 }
 

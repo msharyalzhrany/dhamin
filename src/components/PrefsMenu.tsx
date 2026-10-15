@@ -45,7 +45,7 @@ export function LangSwitch({ className, dark = false }: { className?: string; da
       </button>
       <AnimatePresence>
         {open && (
-          <motion.div {...pop} className="absolute end-0 top-full z-30 mt-2 w-44 rounded-2xl border border-line bg-surface p-1.5 text-ink shadow-card">
+          <motion.div {...pop} className="absolute end-0 top-full z-30 mt-2 w-44 before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-[''] rounded-2xl border border-line bg-surface p-1.5 text-ink shadow-card">
             {LANGS.map((l) => (
               <button key={l.code} onClick={() => { setLang(l.code); setOpen(false); }} className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium hover:bg-surface-2">
                 <span>{l.label} <span className="text-muted num">({l.short})</span></span>
@@ -76,7 +76,7 @@ export function DisplayMenu({ className, dark = false }: { className?: string; d
       </button>
       <AnimatePresence>
         {open && (
-          <motion.div {...pop} className="absolute end-0 top-full z-30 mt-2 w-64 rounded-2xl border border-line bg-surface p-3 text-ink shadow-card">
+          <motion.div {...pop} className="absolute end-0 top-full z-30 mt-2 w-64 before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-[''] rounded-2xl border border-line bg-surface p-3 text-ink shadow-card">
             <p className="mb-2 px-1 text-xs font-semibold text-muted">{t('المظهر', 'Appearance')}</p>
             <div className="grid grid-cols-3 gap-1 rounded-xl bg-surface-2 p-1">
               {themes.map(({ id, icon: I, ar, en }) => (

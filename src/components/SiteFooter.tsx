@@ -11,7 +11,7 @@ export function SiteFooter() {
     { h: t('حسابك', 'Account'), l: [[t('دخول', 'Sign in'), '/login'], [t('إنشاء حساب', 'Sign up'), '/signup'], [t('لوحتي', 'Dashboard'), '/app']] },
   ];
   return (
-    <footer className="relative overflow-hidden bg-deep text-white">
+    <footer className="relative overflow-hidden bg-hero text-white">
       <div className="bg-grid pointer-events-none absolute inset-0" />
       <div className="relative mx-auto max-w-7xl px-5 pb-6 pt-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">

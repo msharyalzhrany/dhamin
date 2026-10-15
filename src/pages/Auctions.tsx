@@ -13,9 +13,9 @@ export default function Auctions() {
     { i: Bell, ar: 'تنبيهات بالبريد والرسائل', en: 'Email & SMS alerts' },
   ];
   return (
-    <section className="relative min-h-[88vh] overflow-hidden bg-deep px-5 pb-20 pt-36 text-white">
+    <section className="relative min-h-[88vh] overflow-hidden bg-hero px-5 pb-20 pt-36 text-white">
       <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 size-full object-cover opacity-25" />
-      <div className="absolute inset-0 bg-gradient-to-b from-deep/60 via-deep/80 to-deep" />
+      <div className="absolute inset-0 bg-gradient-to-b from-hero/40 via-hero/60 to-hero" />
       <div className="bg-grid absolute inset-0" />
       <motion.div initial={{ opacity: 0, y: 30, rotateX: 12 }} animate={{ opacity: 1, y: 0, rotateX: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         style={{ transformPerspective: 1200 }} className="glass relative mx-auto max-w-2xl rounded-[2rem] p-8 text-center sm:p-12">

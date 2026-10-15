@@ -86,9 +86,9 @@ function HeroPreview() {
 function Hero() {
   const { t, lang } = usePrefs();
   return (
-    <section className="relative isolate overflow-hidden bg-deep px-5 pb-24 pt-36 text-white md:pt-44">
-      <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-35" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-deep/70 via-deep/70 to-deep" />
+    <section className="relative isolate overflow-hidden bg-hero px-5 pb-24 pt-36 text-white md:pt-44">
+      <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-70" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-hero/35 via-hero/35 to-hero/90" />
       <div className="bg-grid absolute inset-0 -z-10" />
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <motion.aside initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs backdrop-blur">
@@ -190,7 +190,7 @@ function Scene({ src, title, text, flip }: { src: string; title: string; text: s
 function Scenes() {
   const { t } = usePrefs();
   return (
-    <section className="space-y-10 overflow-hidden bg-deep px-5 py-24">
+    <section className="space-y-10 overflow-hidden bg-hero px-5 py-24">
       <Scene src="/img/jeddah-corniche.jpg" title={t('جدة: من الكورنيش إلى أبحر', 'Jeddah: from the Corniche to Obhur')} text={t('نبدأ من عروس البحر الأحمر، وكل عقار فيها بصفقة واضحة الخطوات.', 'We start with the Red Sea’s bride — every listing comes with a clear deal path.')} />
       <Scene src="/img/riyadh-aerial.jpg" title={t('مدن تكبر، وفرص تتسع', 'Growing cities, widening opportunities')} text={t('فرص استثمارية بعائد متوقع ومدة وحد أدنى واضح.', 'Investment opportunities with expected return, term and a clear minimum.')} />
       <Scene src="/img/yanbu-tower.jpg" title={t('شفافية في كل خطوة', 'Transparency at every step')} text={t('عقد مختوم، توقيع إلكتروني، وتأكيد من الطرفين.', 'Sealed contract, e-signature and confirmation from both sides.')} />
@@ -232,7 +232,7 @@ function Stats() {
   const { data } = useApi<{ activeListings: number; completedDeals: number; members: number; districts: number }>('/stats');
   const items = [[data?.activeListings ?? 0, t('عقار نشط', 'Active listings')], [data?.districts ?? 0, t('حي في جدة', 'Jeddah districts')], [data?.members ?? 0, t('عضو', 'Members')], [data?.completedDeals ?? 0, t('صفقة مكتملة', 'Completed deals')]] as const;
   return (
-    <section className="bg-deep px-5 py-20 text-white">
+    <section className="bg-hero px-5 py-20 text-white">
       <div className="mx-auto grid max-w-6xl gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
         {items.map(([n, l]) => (
           <div key={l} className="border-white/10 lg:border-s lg:first:border-s-0"><Counter to={n} className="num text-5xl font-bold text-brand md:text-6xl" /><p className="mt-2 text-sm text-white/65">{l}</p></div>
@@ -324,7 +324,7 @@ function Cta() {
   const { t } = usePrefs();
   return (
     <section className="bg-bg px-5 py-24">
-      <Reveal className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-deep p-10 text-center text-white md:p-16">
+      <Reveal className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-hero p-10 text-center text-white md:p-16">
         <div className="bg-grid absolute inset-0" />
         <div className="relative"><h2 className="mx-auto max-w-2xl text-3xl font-bold md:text-5xl">{t('جاهز لصفقتك الأولى؟', 'Ready for your first deal?')}</h2>
           <p className="mx-auto mt-4 max-w-md text-white/70">{t('أنشئ حسابك في دقيقة وابدأ.', 'Create your account in a minute and begin.')}</p>

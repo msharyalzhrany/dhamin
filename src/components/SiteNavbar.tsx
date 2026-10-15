@@ -24,12 +24,21 @@ const MEGA: Mega[] = [
       { ar: 'تصفّح', en: 'Browse', links: [
         { ar: 'عقارات للبيع', en: 'For sale', to: '/properties?listingType=sale' },
         { ar: 'عقارات للإيجار', en: 'For rent', to: '/properties?listingType=rent' },
+        { ar: 'فرص استثمارية', en: 'Investment', to: '/invest' },
         { ar: 'كل العقارات', en: 'All properties', to: '/properties' },
       ] },
       { ar: 'حسب النوع', en: 'By type', links: [
         { ar: 'فلل', en: 'Villas', to: '/properties?propertyType=villa' },
         { ar: 'شقق', en: 'Apartments', to: '/properties?propertyType=apartment' },
         { ar: 'أراضي', en: 'Land', to: '/properties?propertyType=land' },
+        { ar: 'عمائر', en: 'Buildings', to: '/properties?propertyType=building' },
+        { ar: 'محلات ومكاتب', en: 'Shops & offices', to: '/properties?usage=commercial' },
+      ] },
+      { ar: 'أحياء مطلوبة', en: 'Popular districts', links: [
+        { ar: 'الروضة', en: 'Al Rawdah', to: '/properties?district=al-rawdah' },
+        { ar: 'الشاطئ', en: 'Al Shati', to: '/properties?district=al-shati' },
+        { ar: 'الحمراء', en: 'Al Hamra', to: '/properties?district=al-hamra' },
+        { ar: 'أبحر الشمالية', en: 'Obhur North', to: '/properties?district=obhur-north' },
       ] },
     ],
     footer: [{ ar: 'أضف عقارك', en: 'List your property', to: '/app/properties/new' }],
@@ -43,6 +52,11 @@ const MEGA: Mega[] = [
       ] },
       { ar: 'أدوات', en: 'Tools', links: [
         { ar: 'محاكي العائد', en: 'Return simulator', to: '/invest#simulator' },
+        { ar: 'كيف يعمل الاستثمار', en: 'How investing works', to: '/#how' },
+      ] },
+      { ar: 'ابدأ', en: 'Get started', links: [
+        { ar: 'أضف فرصة استثمارية', en: 'List an opportunity', to: '/app/properties/new' },
+        { ar: 'إنشاء حساب', en: 'Create account', to: '/signup' },
       ] },
     ],
   },
@@ -53,6 +67,15 @@ const MEGA: Mega[] = [
         { ar: 'خطوات الصفقة', en: 'Deal steps', to: '/#how' },
         { ar: 'العقد والتوقيع الإلكتروني', en: 'Contract & e-signature', to: '/#trust' },
         { ar: 'الأسئلة الشائعة', en: 'FAQ', to: '/#faq' },
+      ] },
+      { ar: 'الدعم', en: 'Support', links: [
+        { ar: 'تواصل مع الدعم', en: 'Contact support', to: '/app/support' },
+        { ar: 'المساعد الذكي', en: 'AI assistant', to: '/#faq' },
+      ] },
+      { ar: 'حسابك', en: 'Your account', links: [
+        { ar: 'تسجيل الدخول', en: 'Sign in', to: '/login' },
+        { ar: 'إنشاء حساب', en: 'Sign up', to: '/signup' },
+        { ar: 'لوحتي', en: 'My dashboard', to: '/app' },
       ] },
     ],
     socials: true,
@@ -83,7 +106,7 @@ export function SiteNavbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const linkCls = 'group flex items-center gap-2 text-xl font-semibold hover:text-brand-text';
+  const linkCls = 'group flex items-center gap-2 text-lg font-semibold hover:text-brand-text';
   const rowBtn = 'flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors';
 
   return (
@@ -147,11 +170,11 @@ export function SiteNavbar() {
             {active && (
               <motion.div key={active.id} initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className="hidden overflow-hidden lg:block">
-                <div className="grid grid-cols-2 gap-10 px-8 pb-6 pt-2">
+                <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-20 gap-y-8 px-8 pb-6 pt-2 text-center">
                   {active.cols.map((col, i) => (
-                    <div key={col.en} className="flex flex-col gap-6">
+                    <div key={col.en} className="flex min-w-[10rem] flex-col items-center gap-6">
                       <span className="w-fit rounded-full border border-line px-4 py-1.5 text-xs font-medium text-muted">{lang === 'ar' ? col.ar : col.en}</span>
-                      <ul className="flex flex-col gap-4">
+                      <ul className="flex flex-col items-center gap-4">
                         {col.links.map((l) => (
                           <li key={l.to}>
                             <Link to={l.to} className={linkCls}>
@@ -165,14 +188,14 @@ export function SiteNavbar() {
                   ))}
                 </div>
                 {active.footer && (
-                  <div className="flex px-8 pb-8">
+                  <div className="flex justify-center px-8 pb-8">
                     {active.footer.map((f) => (
                       <Link key={f.to} to={f.to} className={buttonStyles('primary', 'md', 'gap-2')}><Plus className="size-4" />{lang === 'ar' ? f.ar : f.en}</Link>
                     ))}
                   </div>
                 )}
                 {active.socials && (
-                  <div className="flex items-center gap-4 px-8 pb-8">
+                  <div className="flex items-center justify-center gap-5 px-8 pb-8">
                     {SOCIALS.map(({ label, icon: I }) => <a key={label} href="#" aria-label={label} className="text-muted hover:text-ink"><I className="size-5" /></a>)}
                   </div>
                 )}

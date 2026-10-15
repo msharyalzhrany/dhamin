@@ -35,9 +35,9 @@ function Shell({ mode, children }: { mode: 'login' | 'signup'; children: React.R
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* الجانب البصري: صورة حقيقية + رسالة الهوية */}
-      <div className="relative hidden overflow-hidden bg-deep lg:block">
+      <div className="relative hidden overflow-hidden bg-hero lg:block">
         <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 size-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/55 to-deep/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-hero via-hero/55 to-hero/30" />
         <button onClick={() => nav('/')} aria-label={t('رجوع', 'Back')} className="absolute start-6 top-6 z-10 grid size-10 place-items-center rounded-full bg-black/25 text-white backdrop-blur transition hover:bg-black/40"><ArrowLeft className="size-5 rtl:rotate-180" /></button>
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="absolute inset-x-0 bottom-0 p-10 text-white xl:p-14">
           <Logo markClass="size-12" className="mb-8 text-white" />

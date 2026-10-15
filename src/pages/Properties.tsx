@@ -101,7 +101,7 @@ export default function Properties() {
   return (
     <div>
       {/* شريط العنوان */}
-      <section className="relative overflow-hidden bg-deep pb-10 pt-28 text-white md:pb-14 md:pt-36">
+      <section className="relative overflow-hidden bg-hero pb-10 pt-28 text-white md:pb-14 md:pt-36">
         <div className="bg-grid absolute inset-0" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">{t('تصفّح', 'Explore')}</span>

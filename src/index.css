@@ -16,6 +16,7 @@
 :root {
   --deep: #041c16;
   --brand: #39ab79;
+  --hero: color-mix(in srgb, var(--deep) 74%, var(--brand)); /* خلفية الأقسام الخضراء الداكنة (أفتح من deep) */
   --white: #ffffff;
   --mist: #f3f5f5;
   --black: #000000;
@@ -32,9 +33,9 @@
   --shadow: 0 1px 2px color-mix(in srgb, var(--deep) 8%, transparent), 0 12px 32px -12px color-mix(in srgb, var(--deep) 22%, transparent);
 }
 .dark {
-  --bg: var(--deep);
-  --surface: color-mix(in srgb, var(--deep) 90%, var(--white));
-  --surface-2: color-mix(in srgb, var(--deep) 82%, var(--white));
+  --bg: color-mix(in srgb, var(--deep) 80%, var(--brand));
+  --surface: color-mix(in srgb, var(--deep) 70%, var(--brand));
+  --surface-2: color-mix(in srgb, var(--deep) 60%, var(--brand));
   --ink: var(--mist);
   --muted: color-mix(in srgb, var(--mist) 64%, var(--deep));
   --line: color-mix(in srgb, var(--white) 14%, transparent);
@@ -55,6 +56,7 @@
   --color-brand-soft: var(--brand-soft);
   --color-on-brand: var(--on-brand);
   --color-deep: var(--deep);
+  --color-hero: var(--hero);
   --color-mist: var(--mist);
   --font-sans: "Inter Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-brand: "Readex Pro Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
