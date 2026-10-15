@@ -88,13 +88,14 @@ function HeroPreview() {
 function Hero() {
   const { t, lang } = usePrefs();
   return (
-    <section className="relative isolate overflow-hidden bg-hero px-5 pb-24 pt-36 text-white md:pt-44">
+    <section className="relative isolate overflow-hidden bg-hero px-5 pb-24 pt-44 text-white md:pt-52">
+      <div className="absolute inset-x-0 top-[98px] z-10"><PromoTicker variant={TICKER_VARIANT} /></div>
       <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 -z-20 size-full object-cover opacity-70" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-hero/35 via-hero/35 to-hero/90" />
       <div className="bg-grid absolute inset-0 -z-10" />
       {/* بطاقات جانبية — للشاشات الكبيرة فقط */}
-      <div className="absolute start-6 top-40 hidden min-[1500px]:block"><HeroFeatured /></div>
-      <div className="absolute end-6 top-40 hidden min-[1500px]:block"><HeroTools /></div>
+      <div className="absolute start-6 top-52 hidden min-[1500px]:block"><HeroFeatured /></div>
+      <div className="absolute end-6 top-52 hidden min-[1500px]:block"><HeroTools /></div>
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <motion.aside initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs backdrop-blur">
           <Gavel className="size-3.5 text-brand" /><span className="text-white/75">{t('جديد: المزادات العقارية قريباً', 'New: real-estate auctions are coming soon')}</span>
@@ -339,28 +340,84 @@ function Cta() {
   );
 }
 
-/* ---------- شريط إعلاني متحرك (مثل شريط الأخبار) ---------- */
-function PromoTicker() {
+/* ---------- شريط إعلاني متحرك (مثل شريط الأخبار) — 4 تصاميم، الرقم يتحدد في TICKER_VARIANT ---------- */
+const TICKER_VARIANT: 1 | 2 | 3 | 4 = 3;
+
+function PromoTicker({ variant = TICKER_VARIANT }: { variant?: number }) {
   const { lang, t } = usePrefs();
   const items = [...PROMOS, ...PROMOS]; // مكرّر مرتين للحركة المتصلة
-  return (
-    <div className="ticker relative overflow-hidden border-y border-white/10 bg-deep text-white" dir="ltr" role="region" aria-label={t('عروض ضامن', 'Dhamin offers')}>
-      <div className="pointer-events-none absolute inset-y-0 start-0 z-10 w-16 bg-gradient-to-r from-deep to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 end-0 z-10 w-16 bg-gradient-to-l from-deep to-transparent" />
-      <div className="ticker-track flex w-max items-center" data-dir={lang === 'ar' ? 'right' : 'left'}>
-        {items.map((p, i) => (
-          <Link key={i} to={p.to} dir={lang === 'ar' ? 'rtl' : 'ltr'} className="flex shrink-0 items-center gap-2.5 px-6 py-2 text-[13px] transition-colors hover:text-brand">
-            <span className="rounded bg-brand px-2 py-0.5 text-[11px] font-bold text-deep">{lang === 'ar' ? p.tag.ar : p.tag.en}</span>
-            <b className="font-semibold">{lang === 'ar' ? p.kind.ar : p.kind.en}</b>
-            <span className="text-white/70">{lang === 'ar' ? p.offer.ar : p.offer.en}</span>
-            <span className="ms-4 text-white/25" aria-hidden>◆</span>
+  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const name = (p: (typeof PROMOS)[number]) => (lang === 'ar' ? p.kind.ar : p.kind.en);
+  const offer = (p: (typeof PROMOS)[number]) => (lang === 'ar' ? p.offer.ar : p.offer.en);
+  const tag = (p: (typeof PROMOS)[number]) => (lang === 'ar' ? p.tag.ar : p.tag.en);
+  const track = (render: (p: (typeof PROMOS)[number], i: number) => React.ReactNode, cls = '') => (
+    <div className={cn('ticker-track flex w-max items-center', cls)} data-dir={lang === 'ar' ? 'right' : 'left'}>{items.map(render)}</div>
+  );
+  const fade = (from: string) => (<>
+    <div className={cn('pointer-events-none absolute inset-y-0 left-0 z-10 w-14 bg-gradient-to-r to-transparent', from)} />
+    <div className={cn('pointer-events-none absolute inset-y-0 right-0 z-10 w-14 bg-gradient-to-l to-transparent', from)} />
+  </>);
+  const label = t('عروض ضامن', 'Dhamin offers');
+
+  // 1) شريط أخضر ممتلئ بعرض الصفحة
+  if (variant === 1) return (
+    <div className="ticker relative overflow-hidden bg-brand text-deep" dir="ltr" role="region" aria-label={label}>
+      {fade('from-brand')}
+      {track((p, i) => (
+        <Link key={i} to={p.to} dir={dir} className="flex shrink-0 items-center gap-2 px-6 py-2 text-[13px] hover:underline">
+          <b className="font-bold">{name(p)}</b><span className="opacity-80">{offer(p)}</span>
+          <span className="rounded-full bg-deep px-2 py-0.5 text-[11px] font-bold text-brand">{tag(p)}</span><span className="ms-3 opacity-40" aria-hidden>●</span>
+        </Link>
+      ))}
+    </div>
+  );
+
+  // 2) كبسولة زجاجية بنفس عرض القائمة العلوية
+  if (variant === 2) return (
+    <div className="mx-auto max-w-7xl px-3 sm:px-4">
+      <div className="ticker relative overflow-hidden rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md" dir="ltr" role="region" aria-label={label}>
+        {fade('from-[#1b4538]/80')}
+        {track((p, i) => (
+          <Link key={i} to={p.to} dir={dir} className="flex shrink-0 items-center gap-2.5 px-5 py-2 text-[13px] hover:text-brand">
+            <span className="size-1.5 rounded-full bg-brand" /><b className="font-semibold">{name(p)}</b><span className="text-white/65">{offer(p)}</span>
+            <span className="rounded-full border border-brand/60 px-2 py-0.5 text-[11px] font-semibold text-brand">{tag(p)}</span>
           </Link>
         ))}
       </div>
     </div>
   );
+
+  // 3) شريط "عاجل" بإخراج قنوات الأخبار: علامة ثابتة + نص يتحرك
+  if (variant === 3) return (
+    <div className="mx-auto max-w-7xl px-3 sm:px-4">
+      <div className="flex overflow-hidden rounded-xl border border-white/15 bg-deep/80 text-white backdrop-blur" dir="ltr" role="region" aria-label={label}>
+        <div dir={dir} className="z-20 flex shrink-0 items-center gap-2 bg-brand px-4 text-[13px] font-extrabold text-deep">
+          <span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-deep/60" /><span className="relative size-2 rounded-full bg-deep" /></span>{label}
+        </div>
+        <div className="ticker relative min-w-0 flex-1 overflow-hidden">
+          {fade('from-deep')}
+          {track((p, i) => (
+            <Link key={i} to={p.to} dir={dir} className="flex shrink-0 items-center gap-2 px-5 py-2 text-[13px] hover:text-brand">
+              <b className="text-brand">{name(p)}</b><span className="text-white/75">{offer(p)}</span><b>{tag(p)}</b><span className="ms-3 text-white/25" aria-hidden>|</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // 4) بطاقات بيضاء صغيرة متحركة
+  return (
+    <div className="ticker relative overflow-hidden py-1" dir="ltr" role="region" aria-label={label}>
+      {track((p, i) => (
+        <Link key={i} to={p.to} dir={dir} className="mx-1.5 flex shrink-0 items-center gap-2.5 rounded-full bg-white py-1.5 ps-1.5 pe-4 text-[13px] text-deep shadow-md transition hover:-translate-y-0.5">
+          <span className="rounded-full bg-brand px-2.5 py-1 text-[11px] font-extrabold">{tag(p)}</span><b>{name(p)}</b><span className="text-deep/60">{offer(p)}</span>
+        </Link>
+      ))}
+    </div>
+  );
 }
 
 export default function Home() {
-  return (<><Hero /><PromoTicker /><Services /><Featured /><Scenes /><How /><Stats /><Trust /><InvestTeaser /><Faq /><Cta /></>);
+  return (<><Hero /><Services /><Featured /><Scenes /><How /><Stats /><Trust /><InvestTeaser /><Faq /><Cta /></>);
 }
