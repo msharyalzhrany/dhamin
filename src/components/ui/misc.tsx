@@ -86,8 +86,8 @@ export function Chip({ active, onClick, children, className }: { active?: boolea
 export function SectionHead({ eyebrow, title, text, className, align = 'start' }: { eyebrow?: string; title: ReactNode; text?: string; className?: string; align?: 'start' | 'center' }) {
   return (
     <div className={cn('flex max-w-2xl flex-col gap-3', align === 'center' && 'mx-auto items-center text-center', className)}>
-      {eyebrow && <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-text rtl:tracking-normal">{eyebrow}</span>}
-      <h2 className="text-3xl font-bold leading-tight tracking-tight md:text-5xl">{title}</h2>
+      {eyebrow && <span className={cn('eyebrow-line text-xs font-semibold uppercase tracking-[0.22em] text-brand-text rtl:tracking-normal', align !== 'center' && '[&::after]:hidden')}>{eyebrow}</span>}
+      <h2 className="text-3xl font-semibold leading-tight md:text-5xl">{title}</h2>
       {text && <p className="text-base leading-relaxed text-muted md:text-lg">{text}</p>}
     </div>
   );

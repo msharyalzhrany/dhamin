@@ -4,18 +4,18 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const variants = {
-  primary: 'bg-brand text-on-brand hover:brightness-110 shadow-[0_8px_24px_-8px_color-mix(in_srgb,var(--brand)_70%,transparent)]',
+  primary: 'bg-brand text-on-brand hover:brightness-110 shadow-[0_10px_28px_-10px_color-mix(in_srgb,var(--brand)_80%,transparent)]',
   dark: 'bg-deep text-white hover:bg-black dark:bg-mist dark:text-deep dark:hover:bg-white',
   outline: 'border border-line bg-surface text-ink hover:bg-surface-2',
   ghost: 'text-ink hover:bg-surface-2',
   soft: 'bg-brand-soft text-brand-text hover:brightness-95',
-  glass: 'border border-white/25 bg-white/10 text-white backdrop-blur hover:bg-white/20',
+  glass: 'border border-brand/60 bg-white/5 text-white backdrop-blur hover:bg-brand/20',
 } as const;
 const sizes = { sm: 'h-9 px-4 text-sm', md: 'h-11 px-5 text-sm', lg: 'h-12 px-7 text-base', icon: 'size-10 p-0' } as const;
 
 export function buttonStyles(variant: keyof typeof variants = 'primary', size: keyof typeof sizes = 'md', className?: string) {
   return cn(
-    'inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition-all duration-200 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50',
+    'inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-sm font-semibold uppercase tracking-[0.08em] rtl:tracking-normal rtl:normal-case transition-all duration-200 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50',
     variants[variant], sizes[size], className,
   );
 }

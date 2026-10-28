@@ -24,7 +24,7 @@ export function PropertyFlipCard({ p, onFavorite, className }: { p: Property; on
   const front = (
     <div className="flex size-full flex-col [transform-style:preserve-3d]">
       <div className="relative h-60 w-full [transform-style:preserve-3d] [transform:translateZ(50px)]">
-        <div className="absolute inset-0 overflow-hidden rounded-2xl border border-line bg-surface-2">
+        <div className="absolute inset-0 overflow-hidden rounded-md border border-line bg-surface-2">
           <PropertyImage src={p.cover} alt={p.title} className="transition duration-700 group-hover/p-card:scale-110" />
         </div>
         <div className="absolute start-3 top-3 rounded-full bg-deep/80 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur [transform:translateZ(60px)]">{typeLabel}</div>
@@ -92,7 +92,7 @@ export function PropertyFlipCard({ p, onFavorite, className }: { p: Property; on
     <div className="flex size-full flex-col items-center justify-center [transform-style:preserve-3d]">
       <div className="mb-8 flex w-full justify-center gap-3 [transform-style:preserve-3d]">
         {facts.map(({ icon: I, label, sub, z }) => (
-          <div key={sub} style={{ transform: `translateZ(${z}px)` }} className="flex min-w-[84px] flex-col items-center gap-1.5 rounded-2xl border border-line bg-surface-2 p-3 [transform-style:preserve-3d]">
+          <div key={sub} style={{ transform: `translateZ(${z}px)` }} className="flex min-w-[84px] flex-col items-center gap-1.5 rounded-md border border-line bg-surface-2 p-3 [transform-style:preserve-3d]">
             <div className="rounded-xl border border-line bg-surface p-2 text-brand-text shadow-sm [transform:translateZ(20px)]"><I className="size-5" /></div>
             <p className="num text-xs font-bold [transform:translateZ(10px)]">{label}</p>
             <p className="text-[10px] text-muted">{sub}</p>

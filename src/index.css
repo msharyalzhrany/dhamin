@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/readex-pro";
+@import "@fontsource/cinzel/500.css";
+@import "@fontsource/cinzel/700.css";
+@import "@fontsource-variable/montserrat";
 @import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
 @import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
 @import "@fontsource/ibm-plex-sans-arabic/arabic-600.css";
@@ -13,35 +16,47 @@
    ألوان الهوية — خمسة فقط (#39AB79 #041C16 #FFFFFF #F3F5F5 #000000)
    كل الدرجات الأخرى تُشتق منها بـ color-mix. عدّل هنا لتغيّر الموقع كله.
    ============================================================ */
+:root, [data-palette='1'] {
+  /* 1) أزرق ملكي + أبيض + أحمر طماطم */
+  --deep: #20309a; --brand: #20309a; --accent: #bb232b; --paper: #f6f7fd; --hero: #eaeefc;
+  --brand-text: #20309a; --on-brand: #ffffff; --soft: #dfe5fb;
+}
+[data-palette='2'] {
+  /* 2) أزرق جليدي + بنفسجي + رمادي معدني */
+  --deep: #2a1a72; --brand: #6f3dff; --accent: #bfe9ff; --paper: #f4f4f8; --hero: #dff3fd;
+  --brand-text: #5b2fe0; --on-brand: #ffffff; --soft: #ebe3ff;
+}
+[data-palette='3'] {
+  /* 3) بيج بورسلان + بنفسجي هيذر + ليموني */
+  --deep: #35224f; --brand: #9b7ed6; --accent: #e4ff3b; --paper: #faf3ea; --hero: #f3e6d7;
+  --brand-text: #6b4fb0; --on-brand: #1d1230; --soft: #ece3f8;
+}
 :root {
-  --deep: #041c16;
-  --brand: #39ab79;
-  --hero: color-mix(in srgb, var(--deep) 74%, var(--brand)); /* خلفية الأقسام الخضراء الداكنة (أفتح من deep) */
   --white: #ffffff;
-  --mist: #f3f5f5;
+  --mist: var(--paper);
   --black: #000000;
+  --blue: #20309a;
+  --red: #bb232b;
 
-  --bg: var(--mist);
+  --bg: var(--paper);
   --surface: var(--white);
-  --surface-2: color-mix(in srgb, var(--mist) 65%, var(--white));
-  --ink: var(--deep);
-  --muted: color-mix(in srgb, var(--deep) 62%, var(--mist));
-  --line: color-mix(in srgb, var(--deep) 12%, transparent);
-  --brand-text: color-mix(in srgb, var(--brand) 62%, var(--deep)); /* أخضر مقروء على الفاتح */
-  --brand-soft: color-mix(in srgb, var(--brand) 14%, var(--white));
-  --on-brand: var(--deep); /* لون الكتابة فوق الأخضر (تباين أفضل من الأبيض) */
-  --shadow: 0 1px 2px color-mix(in srgb, var(--deep) 8%, transparent), 0 12px 32px -12px color-mix(in srgb, var(--deep) 22%, transparent);
+  --surface-2: color-mix(in srgb, var(--hero) 55%, var(--white));
+  --ink: color-mix(in srgb, var(--deep) 88%, #000);
+  --muted: color-mix(in srgb, var(--deep) 58%, #fff);
+  --line: color-mix(in srgb, var(--deep) 13%, transparent);
+  --brand-soft: var(--soft);
+  --shadow: 0 1px 2px color-mix(in srgb, var(--deep) 8%, transparent), 0 18px 40px -18px color-mix(in srgb, var(--deep) 30%, transparent);
 }
 .dark {
-  --bg: color-mix(in srgb, var(--deep) 80%, var(--brand));
-  --surface: color-mix(in srgb, var(--deep) 70%, var(--brand));
-  --surface-2: color-mix(in srgb, var(--deep) 60%, var(--brand));
-  --ink: var(--mist);
-  --muted: color-mix(in srgb, var(--mist) 64%, var(--deep));
+  --bg: color-mix(in srgb, var(--deep) 88%, #000);
+  --surface: color-mix(in srgb, var(--deep) 78%, #000);
+  --surface-2: color-mix(in srgb, var(--deep) 68%, #000);
+  --ink: #f5f3fa;
+  --muted: color-mix(in srgb, #fff 62%, var(--deep));
   --line: color-mix(in srgb, var(--white) 14%, transparent);
-  --brand-text: var(--brand);
-  --brand-soft: color-mix(in srgb, var(--brand) 16%, var(--deep));
-  --shadow: 0 1px 2px color-mix(in srgb, var(--black) 40%, transparent), 0 16px 40px -16px color-mix(in srgb, var(--black) 70%, transparent);
+  --brand-text: color-mix(in srgb, var(--brand) 55%, #fff);
+  --brand-soft: color-mix(in srgb, var(--brand) 22%, var(--deep));
+  --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 16px 40px -16px rgb(0 0 0 / .7);
 }
 
 @theme inline {
@@ -58,9 +73,13 @@
   --color-deep: var(--deep);
   --color-hero: var(--hero);
   --color-mist: var(--mist);
-  --font-sans: "Inter Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --color-blue: var(--blue);
+  --color-red: var(--red);
+  --color-accent: var(--accent);
+  --font-sans: "Montserrat Variable", "Inter Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-brand: "Readex Pro Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-arabic: "IBM Plex Sans Arabic", "Inter Variable", system-ui, sans-serif;
+  --font-display: "Cinzel", "Readex Pro Variable", serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Montserrat Variable", system-ui, sans-serif;
   --shadow-card: var(--shadow);
   --animate-float: float 6s ease-in-out infinite;
   --animate-marquee: marquee 40s linear infinite;
@@ -128,3 +147,20 @@ button { cursor: pointer; font: inherit; }
 .ticker-track[data-dir='right'] { animation-name: ticker-right; }
 .ticker:hover .ticker-track { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
+/* ============ هوية جديدة: فخامة سوداء + ذهبي ============ */
+/* العناوين: Cinzel بالإنجليزي (مثل تاج)، وReadex بالعربي */
+html[lang="en"] h1, html[lang="en"] h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: .02em; }
+html[lang="ar"] h1, html[lang="ar"] h2 { font-family: var(--font-brand); font-weight: 600; }
+.eyebrow-line { display: inline-flex; align-items: center; gap: .75rem; }
+.eyebrow-line::before, .eyebrow-line::after { content: ''; width: 2rem; height: 1px; background: var(--brand); }
+.gold-text { background: linear-gradient(120deg, var(--brand), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.gold-border { border: 1px solid color-mix(in srgb, var(--brand) 55%, transparent); }
+
+/* بطاقة 3D تميل مع الماوس */
+.tilt { transform-style: preserve-3d; transition: transform .25s ease-out, box-shadow .25s; will-change: transform; }
+.tilt:hover { box-shadow: 0 30px 60px -20px color-mix(in srgb, var(--deep) 55%, transparent), 0 0 0 1px color-mix(in srgb, var(--brand) 45%, transparent); }
+.tilt > * { transform: translateZ(0); }
+.float-3d { animation: float3d 9s ease-in-out infinite; }
+@keyframes float3d { 0%,100% { transform: translateY(0) rotateX(0) rotateY(0); } 50% { transform: translateY(-12px) rotateX(3deg) rotateY(-4deg); } }
+

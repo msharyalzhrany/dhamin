@@ -6,10 +6,10 @@ import { SectionHead } from '@/components/ui/misc';
 import { usePrefs } from '@/providers/prefs';
 
 const colors = [
-  { n: 'Brand Green', ar: 'الأخضر الأساسي', hex: '#39AB79', bg: 'bg-[#39AB79]', fg: 'text-[#041C16]' },
-  { n: 'Deep Forest', ar: 'الأخضر الداكن', hex: '#041C16', bg: 'bg-[#041C16]', fg: 'text-white' },
-  { n: 'White', ar: 'أبيض', hex: '#FFFFFF', bg: 'bg-white', fg: 'text-[#041C16]' },
-  { n: 'Mist', ar: 'رمادي فاتح', hex: '#F3F5F5', bg: 'bg-[#F3F5F5]', fg: 'text-[#041C16]' },
+  { n: 'Brand Gold', ar: 'الذهبي الأساسي', hex: '#B4975A', bg: 'bg-[#B4975A]', fg: 'text-[#0A0807]' },
+  { n: 'Deep Forest', ar: 'الأخضر الداكن', hex: '#0A0807', bg: 'bg-[#0A0807]', fg: 'text-white' },
+  { n: 'White', ar: 'أبيض', hex: '#FFFFFF', bg: 'bg-white', fg: 'text-[#0A0807]' },
+  { n: 'Mist', ar: 'رمادي فاتح', hex: '#F5F6F7', bg: 'bg-[#F5F6F7]', fg: 'text-[#0A0807]' },
   { n: 'Black', ar: 'أسود', hex: '#000000', bg: 'bg-black', fg: 'text-white' },
 ];
 
@@ -21,16 +21,16 @@ export default function Brand() {
         <Reveal><SectionHead eyebrow={t('الهوية البصرية', 'Brand identity')} title={t('ضامن: درع على شكل بيت، وعلامة صح.', 'Dhamin: a house-shaped shield with a check.')} text={t('الدرع = الحماية، السقف المدبّب = العقار، وعلامة الصح = الصفقة المضمونة.', 'Shield = protection, pointed roof = property, check = a guaranteed deal.')} /></Reveal>
 
         <section aria-label="logo" className="grid gap-4 md:grid-cols-3">
-          {[['bg-white text-[#041C16]', 'logo-light'], ['bg-[#041C16] text-white', 'logo-dark'], ['bg-[#F3F5F5] text-[#041C16]', 'logo-mist']].map(([c, id]) => (
+          {[['bg-white text-[#0A0807]', 'logo-light'], ['bg-[#0A0807] text-white', 'logo-dark'], ['bg-[#F5F6F7] text-[#0A0807]', 'logo-mist']].map(([c, id]) => (
             <div key={id} id={id} className={`grid h-56 place-items-center rounded-3xl border border-line ${c}`}><Logo markClass="size-14" className="text-3xl" /></div>
           ))}
         </section>
 
         <section className="grid gap-4 sm:grid-cols-3 md:grid-cols-4">
-          <div id="mark-only" className="grid h-44 place-items-center rounded-3xl bg-[#041C16]"><LogoMark className="size-20" /></div>
+          <div id="mark-only" className="grid h-44 place-items-center rounded-3xl bg-[#0A0807]"><LogoMark className="size-20" /></div>
           <div id="mark-tile" className="grid h-44 place-items-center rounded-3xl bg-white"><LogoMark tile className="size-20" /></div>
-          <div id="stacked" className="grid h-44 place-items-center rounded-3xl bg-[#F3F5F5] text-[#041C16]"><Logo stacked markClass="size-14" className="text-2xl" /></div>
-          <div className="grid h-44 place-items-center rounded-3xl bg-[#39AB79] text-[#041C16]"><Logo markClass="size-12" className="text-2xl" /></div>
+          <div id="stacked" className="grid h-44 place-items-center rounded-3xl bg-[#F5F6F7] text-[#0A0807]"><Logo stacked markClass="size-14" className="text-2xl" /></div>
+          <div className="grid h-44 place-items-center rounded-3xl bg-[#B4975A] text-[#0A0807]"><Logo markClass="size-12" className="text-2xl" /></div>
         </section>
 
         <section>

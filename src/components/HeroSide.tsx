@@ -11,7 +11,7 @@ import { useMeta } from '@/providers/meta';
 import { useApi } from '@/lib/useApi';
 import type { Property } from '@/lib/types';
 
-const card = 'overflow-hidden rounded-2xl border border-line bg-surface text-start text-ink shadow-card';
+const card = 'overflow-hidden rounded-md border border-line bg-surface text-start text-ink shadow-card';
 const head = 'border-b border-line px-4 py-3 text-sm font-bold';
 const fade = (d: number) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: d, duration: 0.45 } });
 
@@ -72,7 +72,7 @@ export function HeroTools() {
   const r = rate / 100 / 12, n = years * 12;
   const monthly = loan === 0 ? 0 : (loan * r) / (1 - Math.pow(1 + r, -n));
   const lbl = 'flex items-center justify-between text-xs text-muted';
-  const slider = 'mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-line accent-[#39ab79]';
+  const slider = 'mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-line accent-[#b4975a]';
   return (
     <div className="flex w-64 flex-col gap-3.5">
       <motion.div {...fade(0.4)} className={card}>

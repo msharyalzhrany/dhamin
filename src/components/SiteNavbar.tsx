@@ -121,7 +121,7 @@ export function SiteNavbar() {
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4">
       <div className="w-full max-w-7xl" onMouseLeave={() => setOpen(null)}>
         <motion.div layout transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-3xl border border-line bg-surface/95 text-ink shadow-card backdrop-blur-xl transition-shadow', scrolled && 'shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)]')}>
+          className={cn('rounded-2xl border border-line bg-surface/90 text-ink shadow-card backdrop-blur-xl transition-shadow', scrolled && 'shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)]')}>
           <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
             <Link to="/" className="shrink-0" aria-label={t('ضامن — الرئيسية', 'Dhamin — Home')}><Logo markClass="size-9" /></Link>
 

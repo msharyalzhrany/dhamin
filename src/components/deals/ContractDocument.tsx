@@ -63,20 +63,20 @@ export function Seal({ contract, className }: { contract: Contract; className?: 
         <path id={`top-${contract.id}`} d="M 25,100 A 75,75 0 0 1 175,100" />
         <path id={`bot-${contract.id}`} d="M 17,100 A 83,83 0 0 0 183,100" />
       </defs>
-      <circle cx="100" cy="100" r="96" fill="none" stroke="#39AB79" strokeWidth="4" />
+      <circle cx="100" cy="100" r="96" fill="none" stroke="#B4975A" strokeWidth="4" />
       <circle cx="100" cy="100" r="90" fill="none" stroke="#041C16" strokeWidth="1.5" />
-      <circle cx="100" cy="100" r="60" fill="none" stroke="#39AB79" strokeWidth="1.5" />
-      <circle cx="100" cy="100" r="57" fill="#39AB79" fillOpacity=".07" />
+      <circle cx="100" cy="100" r="60" fill="none" stroke="#B4975A" strokeWidth="1.5" />
+      <circle cx="100" cy="100" r="57" fill="#B4975A" fillOpacity=".07" />
       <text fontSize="14" fontWeight="800" fill="#041C16" letterSpacing="1.5">
         <textPath href={`#top-${contract.id}`} startOffset="50%" textAnchor="middle">ضامن • DHAMIN • موثّق</textPath>
       </text>
       <text fontSize="11" fontWeight="700" fill="#041C16" letterSpacing="1.5" className="num">
         <textPath href={`#bot-${contract.id}`} startOffset="50%" textAnchor="middle">{contract.number}</textPath>
       </text>
-      <circle cx="26" cy="108" r="2.6" fill="#39AB79" /><circle cx="174" cy="108" r="2.6" fill="#39AB79" />
+      <circle cx="26" cy="108" r="2.6" fill="#B4975A" /><circle cx="174" cy="108" r="2.6" fill="#B4975A" />
       {/* شعار الدرع */}
       <g transform="translate(76 54) scale(0.95)">
-        <path d="M24 7 L38.5 17 V29 C38.5 35.2 32 39.6 24 42 C16 39.6 9.5 35.2 9.5 29 V17 Z" fill="#39AB79" />
+        <path d="M24 7 L38.5 17 V29 C38.5 35.2 32 39.6 24 42 C16 39.6 9.5 35.2 9.5 29 V17 Z" fill="#B4975A" />
         <path d="M16.8 25.2 L22 30.4 L31.4 19.8" fill="none" stroke="#041C16" strokeWidth="3.8" strokeLinecap="round" strokeLinejoin="round" />
       </g>
       <text x="100" y="116" textAnchor="middle" fontSize="10" fontWeight="800" fill="#041C16" letterSpacing="1.2">{t('مختوم · SEALED', 'SEALED · مختوم')}</text>
