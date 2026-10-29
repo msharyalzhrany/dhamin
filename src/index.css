@@ -1,8 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/readex-pro";
-@import "@fontsource/cinzel/500.css";
-@import "@fontsource/cinzel/700.css";
+@import "@fontsource-variable/open-sans";
 @import "@fontsource-variable/montserrat";
 @import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
 @import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
@@ -17,9 +16,9 @@
    كل الدرجات الأخرى تُشتق منها بـ color-mix. عدّل هنا لتغيّر الموقع كله.
    ============================================================ */
 :root, [data-palette='1'] {
-  /* 1) أزرق ملكي + أبيض + أحمر طماطم */
-  --deep: #20309a; --brand: #20309a; --accent: #bb232b; --paper: #f6f7fd; --hero: #eaeefc;
-  --brand-text: #20309a; --on-brand: #ffffff; --soft: #dfe5fb;
+  /* أسلوب بشيام: أبيض نظيف + أزرق #1362AD */
+  --deep: #1d2733; --brand: #1362ad; --accent: #3aa0ff; --paper: #ffffff; --hero: #f4f7fb;
+  --brand-text: #1362ad; --on-brand: #ffffff; --soft: #e6f0fa;
 }
 [data-palette='2'] {
   /* 2) أزرق جليدي + بنفسجي + رمادي معدني */
@@ -76,10 +75,10 @@
   --color-blue: var(--blue);
   --color-red: var(--red);
   --color-accent: var(--accent);
-  --font-sans: "Montserrat Variable", "Inter Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-sans: "Open Sans Variable", "Inter Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-brand: "Readex Pro Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: "Cinzel", "Readex Pro Variable", serif;
-  --font-arabic: "IBM Plex Sans Arabic", "Montserrat Variable", system-ui, sans-serif;
+  --font-display: "Montserrat Variable", "Readex Pro Variable", sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Open Sans Variable", system-ui, sans-serif;
   --shadow-card: var(--shadow);
   --animate-float: float 6s ease-in-out infinite;
   --animate-marquee: marquee 40s linear infinite;
@@ -150,7 +149,7 @@ button { cursor: pointer; font: inherit; }
 
 /* ============ هوية جديدة: فخامة سوداء + ذهبي ============ */
 /* العناوين: Cinzel بالإنجليزي (مثل تاج)، وReadex بالعربي */
-html[lang="en"] h1, html[lang="en"] h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: .02em; }
+html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: 0; }
 html[lang="ar"] h1, html[lang="ar"] h2 { font-family: var(--font-brand); font-weight: 600; }
 .eyebrow-line { display: inline-flex; align-items: center; gap: .75rem; }
 .eyebrow-line::before, .eyebrow-line::after { content: ''; width: 2rem; height: 1px; background: var(--brand); }
@@ -164,3 +163,6 @@ html[lang="ar"] h1, html[lang="ar"] h2 { font-family: var(--font-brand); font-we
 .float-3d { animation: float3d 9s ease-in-out infinite; }
 @keyframes float3d { 0%,100% { transform: translateY(0) rotateX(0) rotateY(0); } 50% { transform: translateY(-12px) rotateX(3deg) rotateY(-4deg); } }
 
+
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.09); } }
+.kenburns { animation: kenburns 9s ease-out forwards; }

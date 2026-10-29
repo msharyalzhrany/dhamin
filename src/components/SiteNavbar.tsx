@@ -115,13 +115,13 @@ export function SiteNavbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-    const rowBtn = 'flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors';
+    const rowBtn = 'flex items-center gap-1 rounded-md px-3.5 py-2 text-[14px] font-medium transition-colors';
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4">
+    <header className={cn('fixed inset-x-0 top-0 z-50 flex justify-center border-b border-line bg-surface/95 backdrop-blur-md transition-shadow', scrolled && 'shadow-md')}>
       <div className="w-full max-w-7xl" onMouseLeave={() => setOpen(null)}>
         <motion.div layout transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className={cn('rounded-2xl border border-line bg-surface/90 text-ink shadow-card backdrop-blur-xl transition-shadow', scrolled && 'shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)]')}>
+          className="text-ink">
           <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
             <Link to="/" className="shrink-0" aria-label={t('ضامن — الرئيسية', 'Dhamin — Home')}><Logo markClass="size-9" /></Link>
 

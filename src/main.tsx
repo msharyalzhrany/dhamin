@@ -8,7 +8,6 @@ import { PrefsProvider } from '@/providers/prefs';
 import { AuthProvider } from '@/providers/auth';
 import { MetaProvider } from '@/providers/meta';
 import { ToastProvider } from '@/providers/toast';
-import { PaletteSwitcher } from '@/components/PaletteSwitcher';
 import { applyPalette, getPalette } from '@/lib/palette';
 
 applyPalette(getPalette());
@@ -22,7 +21,6 @@ createRoot(document.getElementById('root')!).render(
             <MetaProvider>
               <ToastProvider>
                 <App />
-                <PaletteSwitcher />
               </ToastProvider>
             </MetaProvider>
           </AuthProvider>

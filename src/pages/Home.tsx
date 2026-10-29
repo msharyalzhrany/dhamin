@@ -3,17 +3,18 @@ import { TextEffect } from '@/components/ui/text-effect';
 import { lazy, Suspense, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, BadgeCheck, Building2, Check, ChevronDown, FileSignature, Gavel, HandCoins, Handshake, KeyRound, Search, ShieldCheck, Star, TrendingUp } from 'lucide-react';
+import { ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, MapPin, Building2, Check, ChevronDown, FileSignature, Gavel, HandCoins, Handshake, KeyRound, Search, ShieldCheck, Star, TrendingUp } from 'lucide-react';
 import { LinkButton, buttonStyles } from '@/components/ui/button';
 import { Badge, Progress, SectionHead } from '@/components/ui/misc';
 import { Select } from '@/components/ui/field';
 import { Counter, Reveal } from '@/components/Reveal';
-import { PropertyFlipCard } from '@/components/PropertyCard';
+import { PropertyFlipCard, priceLabel } from '@/components/PropertyCard';
+import { PropertyImage } from '@/components/PropertyImage';
 import { LogoMark } from '@/components/Logo';
 const Hero3D = lazy(() => import('@/components/Hero3D'));
 import { PROMOS } from '@/lib/promos';
 import { usePrefs } from '@/providers/prefs';
-import { useMeta } from '@/providers/meta';
+import { nameOf, useMeta } from '@/providers/meta';
 import { useApi } from '@/lib/useApi';
 import { cn } from '@/lib/utils';
 import type { Property } from '@/lib/types';
@@ -35,7 +36,7 @@ function SearchPanel() {
     nav(`/properties?${q}`);
   }
   return (
-    <div className="w-full max-w-xl rounded-xl border border-line bg-surface p-3 text-ink shadow-card">
+    <div className="w-full max-w-3xl rounded-lg border border-line bg-surface p-3 text-start text-ink shadow-card">
       <div className="mb-3 flex gap-1 rounded-lg bg-surface-2 p-1">
         {tabs.map(([id, label]) => (
           <button key={id} onClick={() => setType(id)} className={cn('relative flex-1 rounded-md py-2.5 text-sm font-semibold transition-colors', type === id ? 'text-on-brand' : 'text-muted hover:text-ink')}>
@@ -44,45 +45,102 @@ function SearchPanel() {
           </button>
         ))}
       </div>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
         <Select aria-label={t('الحي', 'District')} value={district} onChange={(e) => setDistrict(e.target.value)} className=""><option value="">{t('كل أحياء جدة', 'All Jeddah districts')}</option>{meta.districts.map((d) => <option key={d.id} value={d.id}>{L(d)}</option>)}</Select>
         <Select aria-label={t('نوع العقار', 'Property type')} value={pt} onChange={(e) => setPt(e.target.value)} className=""><option value="">{t('كل الأنواع', 'All types')}</option>{meta.propertyTypes.map((d) => <option key={d.id} value={d.id}>{L(d)}</option>)}</Select>
-        <button onClick={go} className={buttonStyles('primary', 'lg', 'h-12 sm:col-span-2')}><Search className="size-4" />{t('ابحث', 'Search')}</button>
+        <button onClick={go} className={buttonStyles('primary', 'lg', 'h-12')}><Search className="size-4" />{t('ابحث', 'Search')}</button>
       </div>
     </div>
   );
 }
 
 function Hero() {
+  // أول شاشة: فيديو فقط تحت القائمة — بدون نصوص فوقه
+  return (
+    <section className="relative isolate h-svh bg-black pt-[64px]">
+      {/* غيّر الملف public/video/hero.mp4 بأي فيديو تبيه */}
+      <video className="absolute inset-x-0 bottom-0 top-[64px] size-full object-cover" autoPlay muted loop playsInline preload="auto" poster="/img/jeddah-corniche.jpg" aria-hidden="true">
+        <source src="/video/hero.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center">
+        <a href="#start" aria-label="scroll" className="grid size-11 animate-bounce place-items-center rounded-full border border-white/70 bg-black/30 text-white backdrop-blur"><ChevronDown className="size-5" /></a>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- أول قسم تحت الفيديو: البحث والخيارات ---------- */
+function Start() {
   const { t, lang } = usePrefs();
   return (
-    <section className="relative isolate overflow-hidden bg-hero px-5 pb-16 pt-44 text-ink md:min-h-[100svh] md:pt-52">
-      <div className="absolute inset-x-0 top-[98px] z-20"><PromoTicker variant={TICKER_VARIANT} /></div>
-      {/* خلفية: دوائر ملونة ناعمة */}
-      <div className="absolute -start-32 top-1/3 -z-10 size-[34rem] rounded-full bg-brand/15 blur-3xl" />
-      <div className="absolute -end-20 top-10 -z-10 size-[26rem] rounded-full bg-accent/20 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-[1.05fr_1fr]">
-        <div className="relative z-10 flex flex-col items-start text-start">
-          <motion.aside initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-xs shadow-card">
-            <Gavel className="size-3.5 text-brand-text" /><span className="text-muted">{t('جديد: المزادات العقارية قريباً', 'New: real-estate auctions are coming soon')}</span>
-            <Link to="/auctions" className="flex items-center gap-1 font-semibold text-brand-text">{t('اعرف أكثر', 'Learn more')}<ArrowRight className="size-3 rtl:rotate-180" /></Link>
-          </motion.aside>
-          <TextEffect key={lang} as="h1" per="word" preset={lang === 'ar' ? 'blur' : 'slide'} delay={0.15}
-            className="text-4xl font-bold leading-[1.2] text-ink md:text-5xl lg:text-6xl">
-            {t('صفقتك العقارية، بضمان من أول رسالة حتى المفتاح.', 'Your property deal, protected from first message to the key.')}
-          </TextEffect>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="mt-5 max-w-xl text-base text-muted md:text-lg">
-            {t('بيع، إيجار واستثمار في جدة بين الأفراد: عقد موثّق بختم وتوقيع إلكتروني، وتأكيد من الطرفين للتحويل والاستلام.', 'Buy, rent and invest in Jeddah between individuals: a sealed contract with e-signature, and both sides confirm transfer and receipt.')}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mt-8 w-full"><SearchPanel /></motion.div>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <LinkButton to="/signup" size="lg">{t('ابدأ صفقتك', 'Start a deal')}</LinkButton>
-            <LinkButton to="/properties" variant="outline" size="lg">{t('تصفّح بدون حساب', 'Browse without an account')}</LinkButton>
+    <section id="start" className="scroll-mt-16 bg-bg">
+      <PromoTicker variant={TICKER_VARIANT} />
+      <div className="mx-auto max-w-5xl px-5 pb-16 pt-14 text-center">
+        <TextEffect key={lang} as="h1" per="word" preset={lang === 'ar' ? 'blur' : 'slide'} className="text-3xl font-bold leading-[1.25] md:text-5xl">
+          {t('عنوانك العقاري الموثوق', 'A Trusted Property Address')}
+        </TextEffect>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-muted">{t('صفقتك بضمان من أول رسالة حتى المفتاح', 'Your deal, protected from first message to the key')}</p>
+        <div className="mt-10 flex justify-center"><SearchPanel /></div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <LinkButton to="/signup" size="lg">{t('ابدأ صفقتك', 'Start a deal')}</LinkButton>
+          <LinkButton to="/properties" variant="outline" size="lg">{t('تصفّح بدون حساب', 'Browse without an account')}</LinkButton>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- صفوف العقارات الأفقية (على طريقة بشيام) ---------- */
+function ListingRow({ title, query, to }: { title: string; query: string; to: string }) {
+  const { t, lang, money } = usePrefs();
+  const meta = useMeta();
+  const { data } = useApi<{ items: Property[] }>(`/properties?${query}&pageSize=10`);
+  const ref = useRef<HTMLDivElement>(null);
+  const go = (d: number) => ref.current?.scrollBy({ left: d * 320, behavior: 'smooth' });
+  const items = data?.items ?? [];
+  if (data && !items.length) return null;
+  const arrow = 'absolute top-[5.5rem] z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-white shadow-lg transition hover:bg-black/80';
+  return (
+    <section className="bg-bg px-5 py-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-4 flex items-center justify-between border-b border-line pb-3">
+          <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
+          <Link to={to} className="text-sm font-semibold text-brand-text hover:underline">{t('عرض الكل', 'View All')}</Link>
+        </div>
+        <div className="relative">
+          <button aria-label="left" onClick={() => go(-1)} className={cn(arrow, 'left-2')}><ChevronLeft className="size-5" /></button>
+          <button aria-label="right" onClick={() => go(1)} className={cn(arrow, 'right-2')}><ChevronRight className="size-5" /></button>
+          <div ref={ref} className="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {(data ? items : Array.from({ length: 4 })).map((p, k) => p ? (
+              <Link key={(p as Property).id} to={`/properties/${(p as Property).id}`} className="group w-72 shrink-0 snap-start overflow-hidden border border-line bg-surface shadow-card transition hover:-translate-y-1 hover:shadow-xl">
+                <div className="relative h-44 overflow-hidden"><PropertyImage src={(p as Property).cover} alt={(p as Property).title} className="transition duration-700 group-hover:scale-110" />
+                  <span className="absolute start-0 top-3 bg-brand px-3 py-1 text-xs font-semibold text-white">{(p as Property).listingType === 'rent' ? t('للإيجار', 'For rent') : (p as Property).listingType === 'invest' ? t('استثمار', 'Invest') : t('للبيع', 'For sale')}</span></div>
+                <div className="space-y-1 p-3">
+                  <h3 className="line-clamp-1 text-[15px] font-semibold">{(p as Property).title}</h3>
+                  <p className="flex items-center gap-1 text-xs text-muted"><MapPin className="size-3.5" />{nameOf(meta.districts, (p as Property).district, lang)}</p>
+                  <p className="num text-sm font-bold text-brand-text">{priceLabel(p as Property, money, lang)}</p>
+                </div>
+              </Link>
+            ) : <div key={k} className="skeleton h-72 w-72 shrink-0" />)}
           </div>
         </div>
-        <div className="relative h-[26rem] sm:h-[32rem] lg:h-[40rem]">
-          <Suspense fallback={null}><Hero3D className="absolute inset-0" /></Suspense>
-        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- تعريف + مجسّم 3D ---------- */
+function Intro() {
+  const { t } = usePrefs();
+  return (
+    <section className="bg-hero px-5 py-20">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-2">
+        <Reveal className="space-y-5">
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">{t('وساطة عقارية مبنية على الشفافية والنزاهة', 'Real-estate brokerage built on transparency and integrity')}</h2>
+          <p className="leading-relaxed text-muted">{t('ضامن منصة في جدة تجمع البائع والمشتري والمؤجّر والمستأجر في مكان واحد: عقد مختوم، توقيع إلكتروني، وتأكيد من الطرفين للتحويل والاستلام في كل صفقة.', 'Dhamin is a Jeddah platform bringing buyers, sellers, landlords and tenants together: a sealed contract, e-signature and both sides confirming transfer and receipt on every deal.')}</p>
+          <LinkButton to="/signup" size="lg">{t('ابدأ الآن', 'Get started')}</LinkButton>
+        </Reveal>
+        <div className="relative h-[24rem] sm:h-[30rem]"><Suspense fallback={null}><Hero3D className="absolute inset-0" /></Suspense></div>
       </div>
     </section>
   );
@@ -207,10 +265,10 @@ function Stats() {
   const { data } = useApi<{ activeListings: number; completedDeals: number; members: number; districts: number }>('/stats');
   const items = [[data?.activeListings ?? 0, t('عقار نشط', 'Active listings')], [data?.districts ?? 0, t('حي في جدة', 'Jeddah districts')], [data?.members ?? 0, t('عضو', 'Members')], [data?.completedDeals ?? 0, t('صفقة مكتملة', 'Completed deals')]] as const;
   return (
-    <section className="bg-deep px-5 py-20 text-white">
+    <section className="border-y border-line bg-surface px-5 py-16 text-ink">
       <div className="mx-auto grid max-w-6xl gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
         {items.map(([n, l]) => (
-          <div key={l} className="border-white/10 lg:border-s lg:first:border-s-0"><Counter to={n} className="num text-5xl font-bold text-brand md:text-6xl" /><p className="mt-2 text-sm text-white/65">{l}</p></div>
+          <div key={l} className="border-line lg:border-s lg:first:border-s-0"><Counter to={n} className="num text-5xl font-bold text-brand md:text-6xl" /><p className="mt-2 text-sm text-muted">{l}</p></div>
         ))}
       </div>
     </section>
@@ -299,7 +357,7 @@ function Cta() {
   const { t } = usePrefs();
   return (
     <section className="bg-bg px-5 py-24">
-      <Reveal className="relative mx-auto max-w-6xl overflow-hidden rounded-lg bg-deep p-10 text-center text-white md:p-16">
+      <Reveal className="relative mx-auto max-w-6xl overflow-hidden rounded-lg bg-brand p-10 text-center text-white md:p-16">
         <div className="bg-grid absolute inset-0" />
         <div className="relative"><h2 className="mx-auto max-w-2xl text-3xl font-bold md:text-5xl">{t('جاهز لصفقتك الأولى؟', 'Ready for your first deal?')}</h2>
           <p className="mx-auto mt-4 max-w-md text-white/70">{t('أنشئ حسابك في دقيقة وابدأ.', 'Create your account in a minute and begin.')}</p>
@@ -388,5 +446,6 @@ function PromoTicker({ variant = TICKER_VARIANT }: { variant?: number }) {
 }
 
 export default function Home() {
-  return (<><Hero /><Services /><Featured /><Scenes /><How /><Stats /><Trust /><InvestTeaser /><Faq /><Cta /></>);
+  const { t } = usePrefs();
+  return (<><Hero /><Start /><ListingRow title={t('عقارات للبيع', 'Properties for Sale')} query="listingType=sale" to="/properties?listingType=sale" /><ListingRow title={t('عقارات للإيجار', 'Properties for Rent')} query="listingType=rent" to="/properties?listingType=rent" /><Intro /><Services /><Featured /><How /><Stats /><Trust /><InvestTeaser /><Faq /><Cta /></>);
 }
