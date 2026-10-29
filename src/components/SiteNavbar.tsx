@@ -104,21 +104,23 @@ export function SiteNavbar() {
   const [mobile, setMobile] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const show = (a?: Auth) => !a || (a === 'user') === !!user;
   const megaFor = (m: Mega): Mega => ({ ...m, cols: m.cols.filter((c) => show(c.auth)).map((c) => ({ ...c, links: c.links.filter((l) => show(l.auth)) })).filter((c) => c.links.length) });
 
   useEffect(() => { setOpen(null); setMobile(false); setUserMenu(false); }, [loc.pathname, loc.search, loc.hash]);
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 24);
+    const fn = () => { setScrolled(window.scrollY > 24); setPastHero(window.scrollY > window.innerHeight * 0.8); };
     fn();
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+    const glass = loc.pathname === '/' && !pastHero;
     const rowBtn = 'flex items-center gap-1 rounded-md px-3.5 py-2 text-[14px] font-medium transition-colors';
 
   return (
-    <header className={cn('fixed inset-x-0 top-0 z-50 flex justify-center border-b border-line bg-surface/95 backdrop-blur-md transition-shadow', scrolled && 'shadow-md')}>
+    <header className={cn('fixed inset-x-0 top-0 z-50 flex justify-center border-b transition-all duration-300', glass ? 'dark border-white/25 bg-black/35 backdrop-blur-xl [&_nav_a]:!text-white [&_nav_button]:!text-white' : 'border-line bg-surface/95 shadow-md backdrop-blur-md')}>
       <div className="w-full max-w-7xl" onMouseLeave={() => setOpen(null)}>
         <motion.div layout transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="text-ink">

@@ -57,9 +57,9 @@ function SearchPanel() {
 function Hero() {
   // أول شاشة: فيديو فقط تحت القائمة — بدون نصوص فوقه
   return (
-    <section className="relative isolate h-svh bg-black pt-[64px]">
+    <section className="relative isolate h-svh bg-black">
       {/* غيّر الملف public/video/hero.mp4 بأي فيديو تبيه */}
-      <video className="absolute inset-x-0 bottom-0 top-[64px] size-full object-cover" autoPlay muted loop playsInline preload="auto" poster="/img/jeddah-corniche.jpg" aria-hidden="true">
+      <video className="absolute inset-0 size-full object-cover" autoPlay muted loop playsInline preload="auto" poster="/img/jeddah-corniche.jpg" aria-hidden="true">
         <source src="/video/hero.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center">
@@ -74,8 +74,8 @@ function Start() {
   const { t, lang } = usePrefs();
   return (
     <section id="start" className="scroll-mt-16 bg-bg">
-      <PromoTicker variant={TICKER_VARIANT} />
-      <div className="mx-auto max-w-5xl px-5 pb-16 pt-14 text-center">
+      <div className="relative z-10 bg-bg pt-4"><PromoTicker variant={TICKER_VARIANT} /></div>
+      <div className="mx-auto max-w-5xl px-5 pb-16 pt-10 text-center">
         <TextEffect key={lang} as="h1" per="word" preset={lang === 'ar' ? 'blur' : 'slide'} className="text-3xl font-bold leading-[1.25] md:text-5xl">
           {t('عنوانك العقاري الموثوق', 'A Trusted Property Address')}
         </TextEffect>
@@ -417,7 +417,7 @@ function PromoTicker({ variant = TICKER_VARIANT }: { variant?: number }) {
   // 3) شريط "عاجل" بإخراج قنوات الأخبار: علامة ثابتة + نص يتحرك
   if (variant === 3) return (
     <div className="mx-auto max-w-7xl px-3 sm:px-4">
-      <div className="flex overflow-hidden rounded-xl border border-white/15 bg-deep/80 text-white backdrop-blur" dir="ltr" role="region" aria-label={label}>
+      <div className="flex overflow-hidden rounded-xl border border-white/15 bg-deep text-white" dir="ltr" role="region" aria-label={label}>
         <div dir={dir} className="z-20 flex shrink-0 items-center gap-2 bg-brand px-4 text-[13px] font-extrabold text-on-brand">
           <span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-on-brand/60" /><span className="relative size-2 rounded-full bg-on-brand" /></span>{label}
         </div>
