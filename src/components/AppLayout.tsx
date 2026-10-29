@@ -61,7 +61,7 @@ function AppLayout() {
   );
 
   const sidebar = (
-    <div className="flex h-full flex-col gap-6 bg-hero p-5 text-white">
+    <div className="flex h-full flex-col gap-6 bg-deep p-5 text-white">
       <div className="flex items-center justify-between">
         <Link to="/"><Logo className="text-white" /></Link>
         <button className="grid size-9 place-items-center rounded-full hover:bg-white/10 lg:hidden" onClick={() => setDrawer(false)} aria-label={t('إغلاق', 'Close')}><X className="size-5" /></button>

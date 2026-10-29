@@ -35,9 +35,9 @@ function Shell({ mode, children }: { mode: 'login' | 'signup'; children: React.R
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* الجانب البصري: صورة حقيقية + رسالة الهوية */}
-      <div className="relative hidden overflow-hidden bg-hero lg:block">
+      <div className="relative hidden overflow-hidden bg-deep lg:block">
         <img src="/img/riyadh-night.jpg" alt="" className="absolute inset-0 size-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-hero via-hero/55 to-hero/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/55 to-deep/30" />
         <button onClick={() => nav('/')} aria-label={t('رجوع', 'Back')} className="absolute start-6 top-6 z-10 grid size-10 place-items-center rounded-full bg-black/25 text-white backdrop-blur transition hover:bg-black/40"><ArrowLeft className="size-5 rtl:rotate-180" /></button>
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="absolute inset-x-0 bottom-0 p-10 text-white xl:p-14">
           <Logo markClass="size-12" className="mb-8 text-white" />
@@ -145,7 +145,7 @@ export function Signup() {
       <p className="mt-2 text-muted">{t('عندك حساب؟', 'Already have an account?')}{' '}<Link to={`/login${sp.get('next') ? `?next=${encodeURIComponent(next)}` : ''}`} className="font-semibold text-brand-text hover:underline">{t('سجّل الدخول', 'Sign in')}</Link></p>
       <div className="mt-6 grid grid-cols-3 gap-2" role="radiogroup" aria-label={t('نوع الحساب', 'Account type')}>
         {types.map(({ id, icon: I, ar, en, on }) => (
-          <div key={id} role="radio" aria-checked={on} aria-disabled={!on} className={cn('relative flex flex-col items-center gap-1.5 rounded-2xl border p-3 text-sm font-semibold', on ? 'border-brand bg-brand-soft' : 'border-line opacity-60')}>
+          <div key={id} role="radio" aria-checked={on} aria-disabled={!on} className={cn('relative flex flex-col items-center gap-1.5 rounded-md border p-3 text-sm font-semibold', on ? 'border-brand bg-brand-soft' : 'border-line opacity-60')}>
             <I className="size-5" />{t(ar, en)}
             {!on && <Badge tone="dark" className="absolute -top-2.5 !px-2 !py-0.5 text-[10px]">{t('قريباً', 'Soon')}</Badge>}
           </div>

@@ -101,7 +101,7 @@ export default function Properties() {
   return (
     <div>
       {/* شريط العنوان */}
-      <section className="relative overflow-hidden bg-hero pb-10 pt-28 text-white md:pb-14 md:pt-36">
+      <section className="relative overflow-hidden bg-deep pb-10 pt-28 text-white md:pb-14 md:pt-36">
         <div className="bg-grid absolute inset-0" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">{t('تصفّح', 'Explore')}</span>
@@ -128,7 +128,7 @@ export default function Properties() {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[19.5rem_minmax(0,1fr)] lg:py-12">
         {/* الشريط الجانبي */}
         <aside className="hidden lg:block">
-          <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-3xl border border-line bg-surface p-6 shadow-card">
+          <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-lg border border-line bg-surface p-6 shadow-card">
             <h2 className="mb-5 flex items-center gap-2 text-lg font-bold"><SlidersHorizontal className="size-5 text-brand-text" />{t('الفلاتر', 'Filters')}</h2>
             <FilterPanel params={params} update={update} reset={reset} />
           </div>
@@ -175,7 +175,7 @@ export default function Properties() {
               <EmptyState icon={<Home className="size-6" />} title={t('تعذّر تحميل العقارات', 'Could not load properties')} text={errText(error, lang)}
                 action={<Button onClick={() => setTick((x) => x + 1)}>{t('إعادة المحاولة', 'Try again')}</Button>} />
             ) : !data ? (
-              <Grid>{Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="mx-auto h-[500px] w-full max-w-[380px] rounded-3xl" />)}</Grid>
+              <Grid>{Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="mx-auto h-[500px] w-full max-w-[380px] rounded-lg" />)}</Grid>
             ) : data.items.length === 0 ? (
               <EmptyState icon={<Home className="size-6" />} title={t('لا توجد عقارات مطابقة', 'No matching properties')}
                 text={t('جرّب تخفيف الفلاتر أو توسيع نطاق السعر.', 'Try loosening the filters or widening the price range.')}
