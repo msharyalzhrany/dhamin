@@ -27,7 +27,7 @@ export default function Hero3D({ className }: { className?: string }) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-    camera.position.set(0, 7, 31); camera.lookAt(0, 3, 0);
+    camera.position.set(0, 6, 27); camera.lookAt(0, 4, 0);
 
     const world = new THREE.Group(); scene.add(world);
     const island = new THREE.Group(); world.add(island);
@@ -37,20 +37,24 @@ export default function Hero3D({ className }: { className?: string }) {
       const mesh = new THREE.Mesh(g, m); mesh.position.set(x, y, z); mesh.castShadow = mesh.receiveShadow = true; island.add(mesh); return mesh;
     };
 
-    // البرج: صورة العمارة على أوجه برج زجاجي يدور (4 جهات) مع لمعة زجاج
-    const tex = new THREE.TextureLoader().load('/img/tower-3d.jpg', () => { /* جاهزة */ });
+    // البرج: العمارة مقصوصة بدون خلفية، مكدّسة بطبقات رفيعة لتصير بحجم ثلاثي الأبعاد وتدور
+    const tex = new THREE.TextureLoader().load('/img/tower-cut.png');
     tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
-    const TW = 4.2, TH = TW * 2; // نسبة الصورة 1:2
-    const face = new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.25, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.08 });
-    const cap = new THREE.MeshStandardMaterial({ color: brand, roughness: 0.3, metalness: 0.5 });
-    const tower = new THREE.Mesh(new THREE.BoxGeometry(TW, TH, TW), [face, face, cap, cap, face, face]);
-    tower.position.y = TH / 2 - 0.5; tower.castShadow = true; island.add(tower);
-    tower.add(new THREE.LineSegments(new THREE.EdgesGeometry(tower.geometry), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 })));
-    // قاعدة لامعة رفيعة + هالة
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(4.6, 4.6, 0.25, 64), mat(white, { roughness: 0.2, metalness: 0.3 }));
-    base.position.y = -0.62; base.receiveShadow = true; island.add(base);
-    const halo = new THREE.Mesh(new THREE.RingGeometry(4.7, 5.3, 64), new THREE.MeshBasicMaterial({ color: accent, transparent: true, opacity: 0.45, side: THREE.DoubleSide }));
-    halo.rotation.x = -Math.PI / 2; halo.position.y = -0.48; island.add(halo);
+    const TH = 9.6, TW = TH * (323 / 1062), LAYERS = 16, DEPTH = 1.9;
+    const layerGeo = new THREE.PlaneGeometry(TW, TH);
+    for (let k = 0; k < LAYERS; k++) {
+      const f = k / (LAYERS - 1);                  // 0 = خلف، 1 = أمام
+      const shade = 0.42 + 0.58 * Math.pow(f, 1.4);  // الطبقات الداخلية أغمق فيبان العمق
+      const m = new THREE.MeshBasicMaterial({ map: tex, alphaTest: 0.5, side: THREE.DoubleSide, color: new THREE.Color(shade, shade, shade) });
+      const plane = new THREE.Mesh(layerGeo, m);
+      plane.position.set(0, TH / 2 - 0.4, -DEPTH / 2 + f * DEPTH);
+      island.add(plane);
+    }
+    // قاعدة لامعة + هالة
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 3.8, 0.22, 64), mat(white, { roughness: 0.2, metalness: 0.3 }));
+    base.position.y = -0.52; base.receiveShadow = true; island.add(base);
+    const halo = new THREE.Mesh(new THREE.RingGeometry(3.9, 4.5, 64), new THREE.MeshBasicMaterial({ color: accent, transparent: true, opacity: 0.45, side: THREE.DoubleSide }));
+    halo.rotation.x = -Math.PI / 2; halo.position.y = -0.4; island.add(halo);
 
     // حلقات تدور حول الجزيرة + مكعبات عائمة
     const ring1 = new THREE.Mesh(new THREE.TorusGeometry(7.6, 0.05, 12, 120), mat(brand)); ring1.rotation.x = Math.PI / 2.2; world.add(ring1);
@@ -69,7 +73,7 @@ export default function Hero3D({ className }: { className?: string }) {
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = el; if (!w || !h) return;
       renderer.setSize(w, h, false); camera.aspect = w / h;
-      camera.position.z = w / h < 0.9 ? 46 : 31; camera.updateProjectionMatrix();
+      camera.position.z = w / h < 0.9 ? 40 : 27; camera.updateProjectionMatrix();
     };
     resize();
     const ro = new ResizeObserver(resize); ro.observe(el);
